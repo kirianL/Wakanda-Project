@@ -33,7 +33,7 @@ export const SiteNavbar: React.FC<SiteNavbarProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 15);
 
       // Detect active section
       const sections = navItems.map((item) => document.querySelector(item.href));

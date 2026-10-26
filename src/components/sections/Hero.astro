@@ -91,7 +91,7 @@ import TornEdge from '@/components/ui/TornEdge.astro';
     position: relative;
     isolation: isolate;
     min-height: 100svh;
-    padding-block: clamp(6rem, 5rem + 3vw, 7.5rem) clamp(5rem, 4rem + 4vw, 8rem);
+    padding-block: clamp(6.5rem, calc(5.5rem + env(safe-area-inset-top, 0px)), 8rem) clamp(5rem, 4rem + 4vw, 8rem);
     color: var(--cream-50);
     overflow: hidden;
   }
