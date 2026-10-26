@@ -1,0 +1,100 @@
+---
+/**
+ * Banner de Cita Cultural
+ * Frase célebre de la marca: "Un niño inculcado en su cultura..."
+ */
+import { quote } from '@/data/content';
+import { Image } from 'astro:assets';
+import isotypeWhite from '@/assets/brand/isotype-white.png';
+---
+
+<section class="quote-banner-sec" aria-label="Lema del proyecto">
+  <div class="container">
+    <div class="quote-card" data-reveal data-surface="ink">
+      <div class="quote-card__inner">
+        <div class="quote-card__icon" aria-hidden="true">
+          <Image src={isotypeWhite} alt="" width={64} />
+        </div>
+        <blockquote class="quote-card__quote">
+          <p>“{quote.text}”</p>
+        </blockquote>
+        <div class="quote-card__author-pill">
+          <span class="quote-card__pill-dot" aria-hidden="true"></span>
+          <span class="label">WAKANDA PROJECT · FILOSOFÍA Y RAÍCES</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .quote-banner-sec {
+    position: relative;
+    padding-block: clamp(3rem, 2rem + 3vw, 5rem);
+    background: var(--color-bg-page);
+  }
+
+  .quote-card {
+    position: relative;
+    padding: clamp(3rem, 2.5rem + 4vw, 5.5rem) clamp(1.5rem, 1rem + 3vw, 4rem);
+    background: var(--color-bg-ink);
+    border-radius: var(--radius-2xl);
+    box-shadow: 0 20px 45px -10px oklch(0.19 0.035 58 / 0.35);
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .quote-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('/textures/pattern-earth.webp') center / clamp(20rem, 35vw, 36rem);
+    opacity: 0.12;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  .quote-card__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+    max-inline-size: 52ch;
+    margin-inline: auto;
+  }
+
+  .quote-card__icon {
+    inline-size: 3.5rem;
+    filter: drop-shadow(0 4px 12px oklch(0 0 0 / 0.5));
+  }
+
+  .quote-card__quote p {
+    font-family: var(--font-display);
+    font-size: var(--text-display-m);
+    font-stretch: var(--width-expanded);
+    line-height: 1.15;
+    text-transform: uppercase;
+    color: var(--color-text-accent-on-ink);
+    text-wrap: balance;
+  }
+
+  .quote-card__author-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.35rem 0.85rem;
+    background: oklch(1 0 0 / 0.1);
+    color: var(--color-text-on-ink-muted);
+    border-radius: var(--radius-pill);
+    border: 1px solid oklch(1 0 0 / 0.15);
+  }
+
+  .quote-card__pill-dot {
+    inline-size: 0.45rem;
+    block-size: 0.45rem;
+    border-radius: 50%;
+    background: var(--color-bg-accent);
+  }
+</style>

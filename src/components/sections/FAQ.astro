@@ -1,0 +1,395 @@
+---
+/**
+ * Sección de Preguntas Frecuentes (FAQ)
+ * Inspirada en el componente "accordion-bordered-rounded" de ReUI (shadcn-compatible).
+ * Animación fluida con grid-template-rows (0fr -> 1fr) sin saltos de layout.
+ */
+interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+  category?: string;
+}
+
+const faqs: FaqItem[] = [
+  {
+    id: 'faq-1',
+    category: 'Iniciación',
+    question: '¿A partir de qué edad pueden ingresar a Wakanda Project?',
+    answer: 'Recibimos a niñas y niños desde los 4 hasta los 15 años. Están organizados en tres grupos según etapa motriz y edad: Semillas (4 a 7 años), Raíces (8 a 11 años) y Tribu Juvenil (12 a 15 años), con contenidos adaptados a su ritmo de crecimiento.'
+  },
+  {
+    id: 'faq-2',
+    category: 'Metodología',
+    question: '¿Es necesario que tengan experiencia previa en baile?',
+    answer: 'Para nada. Más del 70% de nuestros estudiantes comenzaron desde cero. En las primeras clases trabajamos coordinación básica, ritmo corporal, postura y juegos de confianza grupal en un entorno cálido, divertido y sin presiones.'
+  },
+  {
+    id: 'faq-3',
+    category: 'Prueba gratuita',
+    question: '¿Cómo funciona la primera clase de prueba y tiene algún costo?',
+    answer: 'La primera clase es 100% gratuita y sin compromiso de inscripción. Coordinamos el día y la hora por WhatsApp según la edad de tu hijo/a. Puedes acompañarle al salón, ver cómo interactúa con el profesor y el grupo, y decidir con calma al finalizar.'
+  },
+  {
+    id: 'faq-4',
+    category: 'Indumentaria',
+    question: '¿Qué ropa y calzado deben llevar a las clases?',
+    answer: 'Ropa cómoda que permita libertad total de movimiento: licra o buzo deportivo, camiseta de algodón y zapatillas deportivas limpias o medias antideslizantes. También recomendamos traer una botella de agua personal para hidratación.'
+  },
+  {
+    id: 'faq-5',
+    category: 'Horarios',
+    question: '¿Cuáles son los días y horarios disponibles?',
+    answer: 'Contamos con turnos entre semana por la tarde (a partir de las 3:30 p.m.) y los sábados durante la mañana (de 8:30 a.m. a 12:30 m.). Al indicarnos la edad en el formulario, te compartimos de inmediato los cupos abiertos para ese grupo.'
+  },
+  {
+    id: 'faq-6',
+    category: 'Escenario',
+    question: '¿Participan en presentaciones o escenarios en vivo?',
+    answer: '¡Sí! Es parte fundamental de nuestra formación. Realizamos muestras trimestrales para familias y participamos activamente en pasacalles y festivales culturales de Limón, con vestuarios y producción cuidada para fomentar su autoconfianza.'
+  }
+];
+---
+
+<section id="preguntas" class="faq-sec" aria-labelledby="faq-title">
+  <div class="container faq-sec__container">
+    <div class="faq-sec__head" data-reveal>
+      <span class="faq-sec__badge">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+        DUDAS FRECUENTES
+      </span>
+      <h2 id="faq-title" class="faq-sec__title">Todo lo que necesitas saber antes de la primera clase</h2>
+      <p class="faq-sec__lead">
+        Información clara para madres, padres y tutores sobre nuestra metodología, ambiente seguro y proceso de ingreso.
+      </p>
+    </div>
+
+    <div class="faq-sec__list" role="region" aria-label="Lista de preguntas frecuentes">
+      {faqs.map((faq, index) => (
+        <div class="faq-card" data-faq-item>
+          <button
+            type="button"
+            class="faq-card__trigger"
+            aria-expanded="false"
+            aria-controls={faq.id}
+            id={`trigger-${faq.id}`}
+          >
+            <div class="faq-card__question-wrap">
+              <span class="faq-card__num">{String(index + 1).padStart(2, '0')}</span>
+              <span class="faq-card__question">{faq.question}</span>
+            </div>
+            <span class="faq-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </span>
+          </button>
+
+          <div
+            id={faq.id}
+            role="region"
+            aria-labelledby={`trigger-${faq.id}`}
+            class="faq-card__collapse"
+          >
+            <div class="faq-card__content">
+              <p>{faq.answer}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="faq-sec__footer" data-reveal>
+      <div class="faq-sec__callout">
+        <div class="faq-sec__callout-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+          </svg>
+        </div>
+        <div class="faq-sec__callout-text">
+          <strong>¿Tienes otra pregunta sobre el ingreso o las edades?</strong>
+          <p>Escríbenos por WhatsApp y te orientamos personalmente con el horario adecuado.</p>
+        </div>
+        <a href="#inscripcion" class="faq-sec__callout-btn">
+          Consultar por WhatsApp
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initFaqAccordion() {
+    const cards = document.querySelectorAll<HTMLElement>('[data-faq-item]');
+
+    cards.forEach((card) => {
+      const trigger = card.querySelector<HTMLButtonElement>('.faq-card__trigger');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', () => {
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+
+        cards.forEach((otherCard) => {
+          if (otherCard !== card) {
+            const otherTrigger = otherCard.querySelector<HTMLButtonElement>('.faq-card__trigger');
+            otherTrigger?.setAttribute('aria-expanded', 'false');
+            otherCard.classList.remove('faq-card--open');
+          }
+        });
+
+        trigger.setAttribute('aria-expanded', String(!isExpanded));
+        card.classList.toggle('faq-card--open', !isExpanded);
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFaqAccordion);
+  } else {
+    initFaqAccordion();
+  }
+</script>
+
+<style>
+  .faq-sec {
+    position: relative;
+    padding-block: clamp(5rem, 4rem + 4vw, 7.5rem);
+    background-color: var(--cream-50);
+    border-top: 1px solid oklch(0.26 0.06 56 / 0.08);
+  }
+
+  .faq-sec__container {
+    max-inline-size: 54rem;
+    margin-inline: auto;
+  }
+
+  .faq-sec__head {
+    text-align: center;
+    max-inline-size: 42rem;
+    margin-inline: auto;
+    margin-block-end: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .faq-sec__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background: oklch(0.66 0.18 50 / 0.1);
+    color: var(--ochre-700);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-block-end: 1rem;
+  }
+
+  .faq-sec__title {
+    font-size: clamp(1.85rem, 1.5rem + 1.8vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--earth-900);
+    letter-spacing: -0.03em;
+    margin-block-end: 0.85rem;
+  }
+
+  .faq-sec__lead {
+    font-size: clamp(0.98rem, 0.92rem + 0.3vw, 1.1rem);
+    color: oklch(0.36 0.085 56 / 0.85);
+    line-height: 1.6;
+  }
+
+  /* Acordeón estilo ReUI: Bordered Rounded */
+  .faq-sec__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .faq-card {
+    background: #ffffff;
+    border: 1px solid oklch(0.26 0.06 56 / 0.12);
+    border-radius: 1.125rem;
+    transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .faq-card:hover {
+    border-color: oklch(0.66 0.18 50 / 0.4);
+    box-shadow: 0 4px 16px -4px oklch(0.26 0.06 56 / 0.06);
+  }
+
+  .faq-card--open {
+    border-color: var(--ochre-600);
+    box-shadow: 0 8px 24px -6px oklch(0.66 0.18 50 / 0.12);
+  }
+
+  .faq-card__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+  }
+
+  .faq-card__trigger:focus-visible {
+    outline: 2px solid var(--ochre-600);
+    outline-offset: -2px;
+  }
+
+  .faq-card__question-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  .faq-card__num {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ochre-600);
+    background: oklch(0.66 0.18 50 / 0.1);
+    padding: 0.2rem 0.55rem;
+    border-radius: 0.45rem;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+
+  .faq-card__question {
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+    font-weight: 700;
+    color: var(--earth-900);
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+  }
+
+  .faq-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--cream-100);
+    color: var(--earth-800);
+    flex-shrink: 0;
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms ease, color 200ms ease;
+  }
+
+  .faq-card--open .faq-card__icon {
+    transform: rotate(180deg);
+    background: var(--ochre-600);
+    color: #ffffff;
+  }
+
+  /* Transición con CSS Grid (patrón shadcn / ReUI) */
+  .faq-card__collapse {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-card--open .faq-card__collapse {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-card__content {
+    overflow: hidden;
+  }
+
+  .faq-card__content p {
+    padding: 0 1.5rem 1.35rem 3.5rem;
+    font-size: 0.975rem;
+    line-height: 1.65;
+    color: oklch(0.32 0.07 56 / 0.88);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .faq-card__content p {
+      padding-left: 1.5rem;
+    }
+  }
+
+  /* Callout inferior de ayuda directa */
+  .faq-sec__footer {
+    margin-block-start: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .faq-sec__callout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding: 1.35rem 1.75rem;
+    background: var(--cream-100);
+    border: 1px dashed oklch(0.26 0.06 56 / 0.2);
+    border-radius: 1.25rem;
+  }
+
+  .faq-sec__callout-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.85rem;
+    background: #ffffff;
+    color: var(--ochre-600);
+    box-shadow: 0 2px 8px oklch(0.26 0.06 56 / 0.06);
+    flex-shrink: 0;
+  }
+
+  .faq-sec__callout-text {
+    flex: 1;
+    min-width: 16rem;
+  }
+
+  .faq-sec__callout-text strong {
+    display: block;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--earth-900);
+    margin-bottom: 0.2rem;
+  }
+
+  .faq-sec__callout-text p {
+    font-size: 0.88rem;
+    color: oklch(0.36 0.085 56 / 0.8);
+    margin: 0;
+  }
+
+  .faq-sec__callout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.15rem;
+    border-radius: 9999px;
+    background: var(--earth-900);
+    color: var(--cream-50);
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 200ms ease, transform 150ms ease;
+  }
+
+  .faq-sec__callout-btn:hover {
+    background: var(--ochre-700);
+    transform: translateY(-1px);
+  }
+</style>

@@ -1,0 +1,191 @@
+---
+/**
+ * Sección Familias y Seguridad
+ * Puntos de tranquilidad pedagógica + testimonio familiar + foto grupal.
+ */
+import { families } from '@/data/content';
+import BrandPhoto from '@/components/ui/BrandPhoto.astro';
+import photoParade from '@/assets/photos/5.jpg';
+---
+
+<section id="familias" class="families-sec" aria-labelledby="families-title">
+  <div class="container families-sec__container">
+    <div class="families-sec__content" data-reveal>
+      <h2 id="families-title" class="families-sec__title">{families.title}</h2>
+
+      <div class="families-sec__points">
+        {families.points.map((pt) => (
+          <div class="fam-point">
+            <div class="fam-point__bullet" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="12" height="12">
+                <path d="M13.5 4.5l-7 7L3 8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="fam-point__title">{pt.title}</h3>
+              <p class="fam-point__text">{pt.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="fam-testimony">
+        <div class="fam-testimony__stars" aria-hidden="true">
+          {[...Array(5)].map(() => (
+            <svg viewBox="0 0 256 256" width="16" height="16" fill="currentColor">
+              <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.6,153.74,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z" />
+            </svg>
+          ))}
+        </div>
+        <p class="fam-testimony__quote">“{families.testimonial.text}”</p>
+        <span class="fam-testimony__author label">— {families.testimonial.author}</span>
+      </div>
+    </div>
+
+    <div class="families-sec__visual-wrap" data-reveal>
+      <div class="families-sec__frame">
+        <BrandPhoto
+          src={photoParade}
+          alt="Bailarinas y estudiantes de Wakanda Project en el pasacalle cultural en Limón"
+          shape="none"
+          tone="cream"
+          halftone={false}
+          sizes="(min-width: 62rem) 45vw, 90vw"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .families-sec {
+    position: relative;
+    padding-block: var(--space-section);
+    background: var(--color-bg-page);
+    overflow: hidden;
+  }
+
+  .families-sec__container {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  @media (min-width: 62rem) {
+    .families-sec__container {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-9);
+    }
+  }
+
+  .families-sec__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.35rem 0.85rem;
+    background: oklch(0.66 0.18 50 / 0.1);
+    color: var(--color-bg-accent-deep);
+    border-radius: var(--radius-pill);
+    margin-block-end: var(--space-3);
+  }
+
+  .families-sec__dot {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-bg-accent-deep);
+  }
+
+  .families-sec__title {
+    font-size: var(--text-display-m);
+    font-stretch: var(--width-expanded);
+    text-transform: uppercase;
+    line-height: 1.05;
+    margin-block-end: var(--space-6);
+  }
+
+  .families-sec__points {
+    display: grid;
+    gap: var(--space-4);
+    margin-block-end: var(--space-6);
+  }
+
+  .fam-point {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+
+  .fam-point__bullet {
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    border-radius: var(--radius-pill);
+    background: oklch(0.66 0.18 50 / 0.15);
+    color: var(--color-bg-accent-deep);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    margin-block-start: 0.15rem;
+  }
+
+  .fam-point__title {
+    font-size: var(--text-title);
+    margin-block-end: 0.2rem;
+    font-stretch: 110;
+  }
+
+  .fam-point__text {
+    font-size: var(--text-body-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .fam-testimony {
+    padding: var(--space-5);
+    background: #ffffff;
+    border: 1px solid oklch(0.26 0.06 56 / 0.08);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+  }
+
+  .fam-testimony__stars {
+    color: var(--color-bg-accent);
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    margin-block-end: var(--space-2);
+  }
+
+  .fam-testimony__quote {
+    font-size: var(--text-body-sm);
+    line-height: 1.55;
+    color: var(--color-text-primary);
+    margin-block-end: var(--space-2);
+  }
+
+  .fam-testimony__author {
+    color: var(--color-bg-accent-deep);
+    font-size: var(--text-label);
+  }
+
+  .families-sec__visual-wrap {
+    position: relative;
+  }
+
+  .families-sec__frame {
+    position: relative;
+    padding: var(--space-3);
+    background: #ffffff;
+    border: 1px solid oklch(0.26 0.06 56 / 0.08);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-card);
+    aspect-ratio: 3 / 4;
+    max-inline-size: 28rem;
+    margin-inline: auto;
+  }
+
+  .families-sec__frame :global(.photo),
+  .families-sec__frame :global(.photo__cut) {
+    border-radius: calc(var(--radius-2xl) - var(--space-3));
+    overflow: hidden;
+  }
+</style>

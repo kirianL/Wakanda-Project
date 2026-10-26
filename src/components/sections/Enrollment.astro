@@ -1,0 +1,421 @@
+---
+/**
+ * Sección de Inscripción y Contacto (Lead Conversion)
+ * Formulario accesible con validación cliente + redirección directa a WhatsApp
+ * con mensaje preconfigurado para contacto inmediato.
+ */
+import { enroll, site } from '@/data/content';
+---
+
+<section id="inscripcion" class="enroll-sec" aria-labelledby="enroll-title">
+  <div class="container">
+    <div class="enroll-card" data-reveal>
+      <div class="enroll-card__content">
+        <h2 id="enroll-title" class="enroll-card__title">{enroll.title}</h2>
+        <p class="enroll-card__lead">{enroll.lead}</p>
+
+        <!-- Stepper Onboarding (Inspirado en ReUI Stepper) -->
+        <div class="enroll-stepper" aria-label="Proceso de ingreso en 3 pasos">
+          <div class="step-item step-item--active">
+            <span class="step-badge">01</span>
+            <div class="step-info">
+              <strong class="step-title">Solicita tu cupo</strong>
+              <small class="step-desc">Completa el formulario</small>
+            </div>
+          </div>
+          <div class="step-connector" aria-hidden="true"></div>
+          <div class="step-item">
+            <span class="step-badge">02</span>
+            <div class="step-info">
+              <strong class="step-title">Clase de prueba</strong>
+              <small class="step-desc">100% gratuita y sin compromiso</small>
+            </div>
+          </div>
+          <div class="step-connector" aria-hidden="true"></div>
+          <div class="step-item">
+            <span class="step-badge">03</span>
+            <div class="step-info">
+              <strong class="step-title">Elige tu horario</strong>
+              <small class="step-desc">Entre semana o sábados</small>
+            </div>
+          </div>
+        </div>
+
+        <form class="enroll-form" id="enroll-form" novalidate>
+          <div class="form-group">
+            <label for="parent-name" class="label">Nombre del tutor / madre / padre</label>
+            <input
+              type="text"
+              id="parent-name"
+              name="parent_name"
+              required
+              placeholder="Ej. Carmen Rodríguez"
+              autocomplete="name"
+            />
+            <span class="form-error" id="parent-name-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="child-name" class="label">Nombre del niño o niña</label>
+              <input
+                type="text"
+                id="child-name"
+                name="child_name"
+                required
+                placeholder="Ej. Mateo"
+              />
+              <span class="form-error" id="child-name-error" aria-live="polite"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="child-age" class="label">Edad (años)</label>
+              <select id="child-age" name="child_age" required>
+                <option value="">Selecciona la edad</option>
+                <option value="4-5">4 a 5 años (Semillas inicial)</option>
+                <option value="6-7">6 a 7 años (Semillas avanzado)</option>
+                <option value="8-9">8 a 9 años (Raíces)</option>
+                <option value="10-11">10 a 11 años (Raíces avanzado)</option>
+                <option value="12-15">12 a 15 años (Tribu Juvenil)</option>
+              </select>
+              <span class="form-error" id="child-age-error" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="whatsapp-phone" class="label">Número de WhatsApp</label>
+            <input
+              type="tel"
+              id="whatsapp-phone"
+              name="phone"
+              required
+              placeholder="Ej. +506 8888 8888"
+              autocomplete="tel"
+              inputmode="tel"
+            />
+            <span class="form-error" id="whatsapp-phone-error" aria-live="polite"></span>
+          </div>
+
+          <button type="submit" class="enroll-submit-btn" id="enroll-submit">
+            <span>{enroll.submitLabel}</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </form>
+
+        <p class="enroll-disclaimer">
+          <svg viewBox="0 0 256 256" width="16" height="16" fill="currentColor" style="display: inline-block; vertical-align: -0.15em; margin-right: 0.35em;">
+            <path d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.54,15.54,0,0,0,10,0c15.18-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40ZM178.83,114.83l-56,56a8,8,0,0,1-11.32,0l-32-32a8,8,0,0,1,11.32-11.32L117.17,152.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z" />
+          </svg>
+          Sin compromisos ni pagos previos. Te respondemos para agendar fecha según el horario que te quede cómodo.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ whatsappNumber: site.whatsapp }}>
+  const form = document.getElementById('enroll-form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let hasError = false;
+
+      const parentInput = document.getElementById('parent-name');
+      const childInput = document.getElementById('child-name');
+      const ageInput = document.getElementById('child-age');
+      const phoneInput = document.getElementById('whatsapp-phone');
+
+      const parentErr = document.getElementById('parent-name-error');
+      const childErr = document.getElementById('child-name-error');
+      const ageErr = document.getElementById('child-age-error');
+      const phoneErr = document.getElementById('whatsapp-phone-error');
+
+      // Limpiar errores previos
+      [parentErr, childErr, ageErr, phoneErr].forEach(el => el && (el.textContent = ''));
+      [parentInput, childInput, ageInput, phoneInput].forEach(el => el && el.classList.remove('input-invalid'));
+
+      if (!parentInput.value.trim()) {
+        parentErr.textContent = 'Por favor ingresa tu nombre.';
+        parentInput.classList.add('input-invalid');
+        hasError = true;
+      }
+      if (!childInput.value.trim()) {
+        childErr.textContent = 'Por favor ingresa el nombre de la niña o niño.';
+        childInput.classList.add('input-invalid');
+        hasError = true;
+      }
+      if (!ageInput.value) {
+        ageErr.textContent = 'Selecciona la edad para sugerir el grupo correcto.';
+        ageInput.classList.add('input-invalid');
+        hasError = true;
+      }
+      if (!phoneInput.value.trim()) {
+        phoneErr.textContent = 'Ingresa un número de contacto.';
+        phoneInput.classList.add('input-invalid');
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Mensaje estructurado de WhatsApp
+      const message = `¡Hola Wakanda Project! 👋%0A%0AQuiero solicitar una clase de prueba gratuita para:%0A- *Tutor:* ${encodeURIComponent(parentInput.value.trim())}%0A- *Alumno/a:* ${encodeURIComponent(childInput.value.trim())}%0A- *Edad:* ${encodeURIComponent(ageInput.value)} años%0A- *Teléfono:* ${encodeURIComponent(phoneInput.value.trim())}%0A%0A¿Cuáles son los horarios disponibles? ¡Gracias!`;
+
+      // Redirigir a WhatsApp
+      const waUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+      window.open(waUrl, '_blank');
+    });
+  }
+</script>
+
+<style>
+  .enroll-sec {
+    position: relative;
+    padding-block: var(--space-section);
+    background: var(--color-bg-page);
+  }
+
+  .enroll-card {
+    position: relative;
+    padding: clamp(2.5rem, 2rem + 3vw, 4.5rem) clamp(1.5rem, 1rem + 2vw, 3.5rem);
+    background: #ffffff;
+    border: 1px solid oklch(0.26 0.06 56 / 0.08);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-card-hover);
+    overflow: hidden;
+  }
+
+  .enroll-card__content {
+    position: relative;
+    z-index: 2;
+    max-inline-size: 38rem;
+    margin-inline: auto;
+  }
+
+  .enroll-card__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.35rem 0.85rem;
+    background: oklch(0.66 0.18 50 / 0.1);
+    color: var(--color-bg-accent-deep);
+    border-radius: var(--radius-pill);
+    margin-block-end: var(--space-3);
+  }
+
+  .enroll-card__dot {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-bg-accent-deep);
+  }
+
+  .enroll-card__title {
+    font-size: var(--text-display-m);
+    font-stretch: var(--width-expanded);
+    text-transform: uppercase;
+    line-height: 1.05;
+    margin-block-end: var(--space-3);
+  }
+
+  .enroll-card__lead {
+    font-size: var(--text-lead);
+    color: var(--color-text-secondary);
+    margin-block-end: var(--space-5);
+    line-height: 1.5;
+  }
+
+  /* ---------- Stepper ReUI Onboarding ---------- */
+  .enroll-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    background: var(--cream-100);
+    border: 1px solid oklch(0.26 0.06 56 / 0.1);
+    border-radius: 1rem;
+    margin-block-end: var(--space-6);
+  }
+
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex: 1;
+  }
+
+  .step-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    border-radius: 50%;
+    background: oklch(0.26 0.06 56 / 0.1);
+    color: var(--earth-900);
+    font-size: 0.72rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  .step-item--active .step-badge {
+    background: var(--ochre-600);
+    color: #ffffff;
+    box-shadow: 0 2px 8px oklch(0.66 0.18 50 / 0.35);
+  }
+
+  .step-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .step-title {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--earth-900);
+    letter-spacing: -0.01em;
+  }
+
+  .step-desc {
+    font-size: 0.72rem;
+    color: oklch(0.36 0.085 56 / 0.75);
+    white-space: nowrap;
+  }
+
+  .step-connector {
+    width: 1.5rem;
+    height: 1px;
+    background: oklch(0.26 0.06 56 / 0.15);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    .enroll-stepper {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .step-connector {
+      display: none;
+    }
+
+    .step-desc {
+      white-space: normal;
+    }
+  }
+
+  .enroll-form {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .form-grid-2 {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 40rem) {
+    .form-grid-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .form-group {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .form-group label {
+    font-size: var(--text-label);
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+  }
+
+  .form-group input,
+  .form-group select {
+    inline-size: 100%;
+    min-block-size: 3.25rem;
+    padding: var(--space-3) var(--space-4);
+    background: oklch(0.985 0.01 85 / 0.6);
+    border: 1px solid oklch(0.26 0.06 56 / 0.12);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    color: var(--color-text-primary);
+    box-shadow: 0 1px 2px 0 oklch(0.19 0.035 58 / 0.04);
+    transition: border-color var(--duration-fast), box-shadow var(--duration-fast), background-color var(--duration-fast);
+  }
+
+  .form-group input:focus-visible,
+  .form-group select:focus-visible {
+    outline: none;
+    border-color: var(--color-bg-accent-deep);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px oklch(0.66 0.18 50 / 0.15);
+  }
+
+  .form-group input.input-invalid,
+  .form-group select.input-invalid {
+    border-color: var(--color-danger-text);
+  }
+
+  .form-error {
+    font-size: var(--text-label);
+    color: var(--color-danger-text);
+    min-block-size: 1rem;
+    font-weight: 600;
+  }
+
+  .enroll-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    min-block-size: 3.5rem;
+    margin-block-start: var(--space-3);
+    padding-block: var(--space-3);
+    padding-inline-start: var(--space-6);
+    padding-inline-end: calc(var(--space-6) - 2px);
+    background: var(--color-action-solid);
+    color: var(--color-action-on-solid);
+    border: none;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    font-weight: 800;
+    font-stretch: 110;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 8px 24px -4px oklch(0.19 0.035 58 / 0.25);
+    transition-property: transform, box-shadow, background-color;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .enroll-submit-btn:hover {
+      background: var(--color-action-solid-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -4px oklch(0.19 0.035 58 / 0.35);
+    }
+  }
+
+  .enroll-submit-btn:active {
+    transform: scale(0.96);
+    transition-duration: var(--duration-press);
+  }
+
+  .enroll-disclaimer {
+    font-size: var(--text-label);
+    color: var(--color-text-secondary);
+    margin-block-start: var(--space-4);
+    opacity: 0.85;
+    text-align: center;
+  }
+</style>

@@ -1,0 +1,135 @@
+/* ==========================================================================
+   Wakanda Project — Design tokens
+   --------------------------------------------------------------------------
+   Dos capas:
+   1. Primitivos: nombrados por tono (earth, ochre, sun, cream). Nunca se usan
+      directamente en componentes.
+   2. Semánticos: nombrados por rol. Son la única capa que consumen los
+      componentes.
+   Los valores salen de la paleta de marca (logo, fondos y piezas de
+   Instagram) y se expresan en oklch para que las rampas sean perceptualmente
+   uniformes. El comentario indica el hex de referencia en sRGB.
+   ========================================================================== */
+
+:root {
+  /* ---------- Primitivos · Tierra (logo, fondo oscuro) ---------- */
+  --earth-950: oklch(0.19 0.035 58); /* #1f1004 */
+  --earth-900: oklch(0.26 0.06 56); /* #3a1c02 · color del logo */
+  --earth-800: oklch(0.36 0.085 56); /* #612f00 · fondo de patrón */
+  --earth-700: oklch(0.45 0.1 58); /* #81460f */
+
+  /* ---------- Primitivos · Ocre (acento de marca) ---------- */
+  --ochre-700: oklch(0.58 0.16 48); /* #c25400 */
+  --ochre-600: oklch(0.66 0.18 50); /* #e36a00 · fondo de patrón claro */
+  --ochre-500: oklch(0.76 0.17 66); /* #f79a00 · fondo de cita */
+  --ochre-400: oklch(0.8 0.155 70); /* #ffa82e · trazos del patrón */
+
+  /* ---------- Primitivos · Sol y crema (superficies claras) ---------- */
+  --sun-300: oklch(0.88 0.11 82); /* #ffd27a */
+  --cream-200: oklch(0.93 0.04 84); /* #f2e3c3 · semitono claro */
+  --cream-100: oklch(0.96 0.022 85); /* #f8f0e0 */
+  --cream-50: oklch(0.985 0.01 85); /* #fdf9f2 */
+
+  /* ---------- Semánticos · Superficies ---------- */
+  --color-bg-page: var(--cream-50);
+  --color-bg-surface: var(--cream-100);
+  --color-bg-surface-strong: var(--cream-200);
+  --color-bg-accent: var(--ochre-500);
+  --color-bg-accent-deep: var(--ochre-600);
+  --color-bg-highlight: var(--sun-300);
+  --color-bg-ink: var(--earth-900);
+  --color-bg-ink-deep: var(--earth-950);
+
+  /* ---------- Semánticos · Texto ---------- */
+  --color-text-primary: var(--earth-900);
+  --color-text-secondary: var(--earth-800);
+  --color-text-on-ink: var(--cream-100);
+  --color-text-on-ink-muted: var(--cream-200);
+  --color-text-accent-on-ink: var(--ochre-400);
+
+  /* ---------- Semánticos · Acciones ---------- */
+  --color-action-solid: var(--earth-900);
+  --color-action-solid-hover: var(--earth-800);
+  --color-action-on-solid: var(--cream-50);
+  --color-action-solid-on-ink: var(--ochre-500);
+  --color-action-solid-on-ink-hover: var(--ochre-400);
+  --color-action-on-solid-on-ink: var(--earth-950);
+
+  /* ---------- Semánticos · Estructura y estado ---------- */
+  --color-border: oklch(0.26 0.06 56 / 0.18);
+  --color-border-strong: var(--earth-900);
+  --color-focus-ring: var(--earth-950);
+  --color-focus-ring-on-ink: var(--sun-300);
+  --color-danger-text: oklch(0.5 0.19 28);
+  --color-success-text: oklch(0.45 0.12 150);
+  --color-paper-shadow: var(--earth-900);
+
+  /* ---------- Tipografía · Familias (Geist en todo) ---------- */
+  --font-display: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* ---------- Tipografía · Escala (por uso) ---------- */
+  --text-display-xl: clamp(3.25rem, 1.6rem + 7.2vw, 9.5rem);
+  --text-display-l: clamp(2.5rem, 1.4rem + 4.6vw, 6rem);
+  --text-display-m: clamp(2rem, 1.35rem + 2.6vw, 3.75rem);
+  --text-title: clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem);
+  --text-lead: clamp(1.1875rem, 1.05rem + 0.55vw, 1.5rem);
+  --text-body: 1.0625rem;
+  --text-body-sm: 0.9375rem;
+  --text-label: 0.8125rem;
+
+  /* ---------- Tipografía · Ancho (normalizado para Geist) ---------- */
+  --width-wordmark: normal;
+  --width-expanded: normal;
+
+  /* ---------- Espaciado (base 4px) ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-section: clamp(5rem, 3rem + 8vw, 10rem);
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --content-max: 82rem;
+
+  /* ---------- Radios (Rare UI Squircles) ---------- */
+  --radius-xs: 0.5rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+  --radius-xl: 2.25rem;
+  --radius-2xl: 2.75rem;
+  --radius-pill: 9999px;
+
+  /* ---------- Elevaciones Rare UI (Soft layered depth + ultra fine border) ---------- */
+  --shadow-subtle: 0 1px 2px 0 oklch(0.19 0.035 58 / 0.04);
+  --shadow-card: 0 10px 30px -4px oklch(0.19 0.035 58 / 0.06), 0 4px 12px -2px oklch(0.19 0.035 58 / 0.03);
+  --shadow-card-hover: 0 20px 40px -8px oklch(0.19 0.035 58 / 0.12), 0 8px 16px -4px oklch(0.19 0.035 58 / 0.05);
+  --shadow-card-featured: 0 20px 45px -8px oklch(0.66 0.18 50 / 0.22), 0 8px 20px -4px oklch(0.19 0.035 58 / 0.08);
+
+  /* Bordes ultra-delicados estilo Rare UI */
+  --border-subtle: 1px solid oklch(0.26 0.06 56 / 0.08);
+  --border-card: 1px solid oklch(0.26 0.06 56 / 0.1);
+  --border-glass: 1px solid oklch(1 0 0 / 0.4);
+
+  /* ---------- Movimiento (Filosofía Emil Kowalski + Rare UI) ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-spring: cubic-bezier(0.34, 1.3, 0.64, 1);
+  
+  --duration-press: 120ms;
+  --duration-fast: 180ms;
+  --duration-base: 240ms;
+  --duration-enter: 320ms;
+  --duration-slow: 480ms;
+
+  /* ---------- Capas ---------- */
+  --z-grain: 90;
+  --z-header: 50;
+  --z-menu: 60;
+}

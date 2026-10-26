@@ -1,0 +1,155 @@
+---
+/**
+ * RhythmicSlot.astro
+ * Componente interactivo de texto rodante utilizando la librería `slot-text`.
+ * Proporciona rotación cíclica con física de slot machine y microinteracción al hover/click.
+ */
+interface Props {
+  words?: string[];
+  initialIndex?: number;
+  interval?: number;
+  class?: string;
+}
+
+const {
+  words = ['MOVIMIENTO', 'IDENTIDAD', 'COMUNIDAD', 'CONFIANZA', 'RITMO AFRO'],
+  initialIndex = 0,
+  interval = 2800,
+  class: className = '',
+} = Astro.props;
+
+const initialWord = words[initialIndex] || words[0];
+---
+
+<span
+  class:list={['rhythmic-slot-container', className]}
+  data-rhythmic-slot
+  data-words={JSON.stringify(words)}
+  data-interval={interval}
+  tabindex="0"
+  role="button"
+  aria-label="Toca para cambiar palabra"
+>
+  <span class="rhythmic-slot-target">{initialWord}</span>
+  <span class="rhythmic-slot-sparkle" aria-hidden="true">
+    <svg viewBox="0 0 256 256" width="14" height="14" fill="currentColor">
+      <path d="M228.92,117.84l-44.76-17.9a8,8,0,0,1-4.44-4.44l-17.9-44.76a16,16,0,0,0-29.64,0l-17.9,44.76a8,8,0,0,1-4.44,4.44l-44.76,17.9a16,16,0,0,0,0,29.64l44.76,17.9a8,8,0,0,1,4.44,4.44l17.9,44.76a16,16,0,0,0,29.64,0l17.9-44.76a8,8,0,0,1,4.44-4.44l44.76-17.9A16,16,0,0,0,228.92,117.84ZM147.08,138.92a24.1,24.1,0,0,0-13.16,13.16L120,186.72l-13.92-34.64a24.1,24.1,0,0,0-13.16-13.16L58.28,125l34.64-13.92a24.1,24.1,0,0,0,13.16-13.16L120,63.28l13.92,34.64a24.1,24.1,0,0,0,13.16,13.16L181.72,125Z" />
+    </svg>
+  </span>
+</span>
+
+<script>
+  import { slotText } from 'slot-text';
+
+  function initSlotText() {
+    const containers = document.querySelectorAll<HTMLElement>('[data-rhythmic-slot]');
+
+    containers.forEach((container) => {
+      if (container.dataset.slotInitialized) return;
+      container.dataset.slotInitialized = 'true';
+
+      const target = container.querySelector<HTMLElement>('.rhythmic-slot-target');
+      if (!target) return;
+
+      const wordsStr = container.dataset.words || '[]';
+      const words: string[] = JSON.parse(wordsStr);
+      const intervalMs = parseInt(container.dataset.interval || '2800', 10);
+
+      if (!words || words.length === 0) return;
+
+      let currentIndex = 0;
+      const controller = slotText(target, words[0], {
+        duration: 450,
+      });
+
+      let timer: number | undefined;
+
+      const advance = () => {
+        currentIndex = (currentIndex + 1) % words.length;
+        controller.set(words[currentIndex], {
+          direction: 'down',
+          duration: 420,
+        });
+      };
+
+      const startTimer = () => {
+        if (timer) clearInterval(timer);
+        timer = window.setInterval(advance, intervalMs);
+      };
+
+      const stopTimer = () => {
+        if (timer) clearInterval(timer);
+      };
+
+      // Iniciar rotación automática si el usuario no tiene reduce-motion
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced) {
+        startTimer();
+      }
+
+      // Interacción táctil o clic manual
+      container.addEventListener('click', () => {
+        advance();
+        if (!prefersReduced) startTimer(); // Reinicia el timer para que no salte inmediatamente
+      });
+
+      // Teclado (Enter o Espacio)
+      container.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          advance();
+          if (!prefersReduced) startTimer();
+        }
+      });
+
+      container.addEventListener('mouseenter', stopTimer);
+      container.addEventListener('mouseleave', () => {
+        if (!prefersReduced) startTimer();
+      });
+    });
+  }
+
+  // Inicializar al cargar y en view transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSlotText);
+  } else {
+    initSlotText();
+  }
+  document.addEventListener('astro:page-load', initSlotText);
+</script>
+
+<style>
+  .rhythmic-slot-container {
+    display: inline-flex;
+    align-items: baseline;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: baseline;
+    color: var(--cream-50);
+    text-shadow: 0 4px 16px oklch(0.19 0.035 58 / 0.15);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform var(--duration-fast) var(--ease-out),
+                color var(--duration-fast) var(--ease-out);
+  }
+
+  .rhythmic-slot-container:hover {
+    transform: translateY(-2px);
+    color: #ffffff;
+  }
+
+  .rhythmic-slot-container:active {
+    transform: scale(0.96);
+  }
+
+  .rhythmic-slot-target {
+    display: inline-flex;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: inherit;
+  }
+
+  .rhythmic-slot-sparkle {
+    display: none;
+  }
+</style>

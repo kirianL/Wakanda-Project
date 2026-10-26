@@ -1,0 +1,139 @@
+---
+/**
+ * Fotografía con tratamiento de marca: duotono tierra → ocre, semitono
+ * opcional y recorte SVG. Replica el estilo de las piezas de Instagram.
+ *
+ * Cómo funciona el duotono (sin editar la imagen):
+ *  1. La foto en escala de grises se multiplica sobre el color claro:
+ *     los blancos toman ese color y el fondo de estudio "desaparece".
+ *  2. Una capa del color oscuro en modo `lighten` reemplaza los negros.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+type Shape = 'arch' | 'pebble' | 'ticket' | 'torn' | 'none';
+type Tone = 'ochre' | 'sun' | 'cream';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  shape?: Shape;
+  tone?: Tone;
+  halftone?: boolean;
+  paper?: boolean;
+  priority?: boolean;
+  sizes?: string;
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  shape = 'none',
+  tone = 'ochre',
+  halftone = false,
+  paper = false,
+  priority = false,
+  sizes = '(min-width: 64rem) 40vw, 90vw',
+  class: className,
+} = Astro.props;
+---
+
+<figure class:list={['photo', className]} data-paper={paper || undefined}>
+  <div class="photo__cut" data-shape={shape} data-tone={tone} data-halftone={halftone || undefined}>
+    <Image
+      class="photo__img"
+      src={src}
+      alt={alt}
+      widths={[480, 768, 1080, 1440]}
+      sizes={sizes}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+    />
+  </div>
+</figure>
+
+<style>
+  .photo {
+    position: relative;
+    block-size: 100%;
+  }
+
+  .photo[data-paper] {
+    filter: var(--paper-shadow);
+  }
+
+  .photo__cut {
+    --duo-light: var(--ochre-500);
+    --duo-dark: var(--earth-900);
+
+    position: relative;
+    isolation: isolate;
+    block-size: 100%;
+    overflow: hidden;
+    background: var(--duo-light);
+  }
+
+  .photo__cut[data-tone='sun'] {
+    --duo-light: var(--sun-300);
+  }
+
+  .photo__cut[data-tone='cream'] {
+    --duo-light: var(--cream-200);
+  }
+
+  .photo__cut[data-shape='arch'] {
+    clip-path: url(#cut-arch);
+  }
+  .photo__cut[data-shape='pebble'] {
+    clip-path: url(#cut-pebble);
+  }
+  .photo__cut[data-shape='ticket'] {
+    clip-path: url(#cut-ticket);
+  }
+  .photo__cut[data-shape='torn'] {
+    clip-path: url(#cut-torn);
+  }
+
+  .photo__img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.35) brightness(1.12);
+    mix-blend-mode: multiply;
+  }
+
+  /* Sombras → color tierra */
+  .photo__cut::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--duo-dark);
+    mix-blend-mode: lighten;
+    pointer-events: none;
+  }
+
+  /* Trama de semitono: puntos claros que solo aparecen sobre zonas oscuras */
+  .photo__cut[data-halftone]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: radial-gradient(circle, var(--duo-light) 28%, transparent 31%) 0 0 / 5px 5px;
+    mix-blend-mode: lighten;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* Imagen fuera de su forma: contorno sutil para dar profundidad */
+  .photo__cut[data-shape='none'] {
+    border-radius: inherit;
+    outline: 1px solid oklch(0 0 0 / 0.1);
+    outline-offset: -1px;
+  }
+
+  :global([data-surface='ink']) .photo__cut[data-shape='none'] {
+    outline-color: oklch(1 0 0 / 0.1);
+  }
+</style>

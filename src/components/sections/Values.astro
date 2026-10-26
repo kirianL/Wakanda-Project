@@ -1,0 +1,182 @@
+---
+/**
+ * Sección de Valores de Marca
+ * Cuadrícula de 4 valores en tarjetas recortadas orgánicamente con sus iconos.
+ */
+import { values } from '@/data/content';
+import ValueIcon from '@/components/svg/ValueIcon.astro';
+---
+
+<section id="valores" class="values-sec" aria-labelledby="values-title">
+  <div class="container">
+    <div class="values-sec__head" data-reveal>
+      <h2 id="values-title" class="values-sec__title">Nuestros Valores en Cada Movimiento</h2>
+      <p class="values-sec__subtitle">
+        Bases pedagógicas y comunitarias que guían cada ensayo, juego y coreografía.
+      </p>
+    </div>
+
+    <div class="values-sec__grid">
+      {values.map((val, i) => (
+        <article
+          class="val-card"
+          data-tone={val.tone}
+          data-reveal
+        >
+          <div class="val-card__top">
+            <div class="val-card__icon-wrapper">
+              <ValueIcon name={val.icon} class="val-card__icon" />
+            </div>
+            <span class="val-card__index label">0{i + 1}</span>
+          </div>
+          
+          <div class="val-card__body">
+            <h3 class="val-card__title">{val.title}</h3>
+            <p class="val-card__text">{val.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .values-sec {
+    position: relative;
+    padding-block: var(--space-section);
+    background: var(--color-bg-page);
+  }
+
+  .values-sec__head {
+    max-inline-size: 50ch;
+    margin-block-end: var(--space-8);
+  }
+
+  .values-sec__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.35rem 0.85rem;
+    background: oklch(0.66 0.18 50 / 0.1);
+    color: var(--color-bg-accent-deep);
+    border-radius: var(--radius-pill);
+    margin-block-end: var(--space-3);
+  }
+
+  .values-sec__dot {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-bg-accent-deep);
+  }
+
+  .values-sec__title {
+    font-size: var(--text-display-m);
+    font-stretch: var(--width-expanded);
+    text-transform: uppercase;
+    line-height: 1.05;
+    margin-block-end: var(--space-3);
+  }
+
+  .values-sec__subtitle {
+    font-size: var(--text-lead);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .values-sec__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: var(--space-6);
+  }
+
+  /* Rare UI style Squircle Card */
+  .val-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+    background: #ffffff;
+    border: 1px solid oklch(0.26 0.06 56 / 0.08);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-card);
+    transition: transform var(--duration-fast) var(--ease-out),
+                box-shadow var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out);
+    overflow: hidden;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .val-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-card-hover);
+      border-color: oklch(0.26 0.06 56 / 0.16);
+    }
+  }
+
+  .val-card[data-tone='earth'] {
+    background: var(--earth-900);
+    color: var(--cream-50);
+    border-color: var(--earth-950);
+    box-shadow: 0 14px 35px -6px oklch(0.19 0.035 58 / 0.35);
+  }
+
+  .val-card[data-tone='earth'] .val-card__text {
+    color: var(--cream-200);
+  }
+
+  .val-card[data-tone='earth'] .val-card__index {
+    color: oklch(1 0 0 / 0.35);
+  }
+
+  .val-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-block-end: var(--space-6);
+  }
+
+  .val-card__icon-wrapper {
+    inline-size: 3.25rem;
+    block-size: 3.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    background: oklch(0.66 0.18 50 / 0.1);
+    color: var(--color-bg-accent-deep);
+    padding: var(--space-2);
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .val-card:hover .val-card__icon-wrapper {
+    transform: scale(1.08) rotate(3deg);
+  }
+
+  .val-card[data-tone='earth'] .val-card__icon-wrapper {
+    background: oklch(1 0 0 / 0.12);
+    color: var(--sun-300);
+  }
+
+  .val-card__index {
+    font-size: var(--text-label);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: oklch(0.26 0.06 56 / 0.3);
+  }
+
+  .val-card__title {
+    font-size: var(--text-title);
+    font-stretch: var(--width-expanded);
+    text-transform: uppercase;
+    margin-block-end: var(--space-3);
+    line-height: 1.1;
+  }
+
+  .val-card__text {
+    font-size: var(--text-body-sm);
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+  }
+</style>

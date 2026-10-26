@@ -1,0 +1,216 @@
+---
+/**
+ * PhotoCarousel — Carrusel Infinito con las 14 fotos reales de Wakanda Project.
+ * - Flujo continuo e infinito sin fin (infinite marquee loop).
+ * - Fotos limpias: 100% fotografía auténtica sin textos ni badges superpuestos.
+ * - Ratio vertical 3:4 exacto para respetar la toma nativa sin cortes de cabeza o cuerpo.
+ * - Hover suave y refinado: elevación sutil sin zoom en la imagen.
+ * - Se eliminan los botones redondos y los contadores numéricos.
+ */
+import { Image } from 'astro:assets';
+
+import photo1 from '@/assets/photos/1.jpg';
+import photo2 from '@/assets/photos/2.jpg';
+import photo3 from '@/assets/photos/3.jpg';
+import photo4 from '@/assets/photos/4.jpg';
+import photo5 from '@/assets/photos/5.jpg';
+import photo6 from '@/assets/photos/6.jpg';
+import photo7 from '@/assets/photos/7.jpg';
+import photo8 from '@/assets/photos/8.jpg';
+import photo9 from '@/assets/photos/9.jpg';
+import photo10 from '@/assets/photos/10.jpg';
+import photo11 from '@/assets/photos/11.jpg';
+import photo12 from '@/assets/photos/12.jpg';
+import photo13 from '@/assets/photos/13.jpg';
+import photo14 from '@/assets/photos/14.jpg';
+
+const photos = [
+  photo7,
+  photo1,
+  photo6,
+  photo2,
+  photo12,
+  photo10,
+  photo5,
+  photo14,
+  photo3,
+  photo8,
+  photo9,
+  photo11,
+  photo13,
+  photo4
+];
+---
+
+<section id="galeria" class="photo-carousel-sec" aria-labelledby="carousel-heading">
+  <div class="container photo-carousel-sec__container">
+    <div class="carousel-head" data-reveal>
+      <span class="carousel-kicker">GALERÍA · ESCENARIOS REALES</span>
+      <h2 id="carousel-heading" class="carousel-title">Nuestra tribu en movimiento</h2>
+      <p class="carousel-subtitle">
+        Momentos auténticos de nuestras alumnas y alumnos en ensayos, festivales y muestras teatrales en Limón.
+      </p>
+    </div>
+  </div>
+
+  <!-- Carrusel Infinito Continuo -->
+  <div class="carousel-marquee" aria-label="Galería infinita de fotografías">
+    <div class="carousel-track">
+      {[...photos, ...photos].map((photo, i) => (
+        <article class="carousel-card" aria-hidden={i >= photos.length ? 'true' : undefined}>
+          <Image
+            src={photo}
+            alt="Bailarines de Wakanda Project en presentación y ensayo en Limón"
+            class="carousel-card__img"
+            widths={[360, 520, 720]}
+            sizes="(max-width: 640px) 72vw, (max-width: 1024px) 34vw, 21vw"
+            loading="lazy"
+          />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .photo-carousel-sec {
+    position: relative;
+    padding-block: clamp(4.5rem, 3.5rem + 4vw, 7rem);
+    background: #0d0603;
+    color: var(--cream-50);
+    overflow: hidden;
+  }
+
+  .photo-carousel-sec::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(135deg, oklch(0.26 0.06 56 / 0.35) 0%, transparent 65%),
+      url('/textures/pattern-earth.webp');
+    background-size: cover, clamp(18rem, 30vw, 32rem);
+    background-position: center;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  .photo-carousel-sec__container {
+    position: relative;
+    z-index: 2;
+  }
+
+  .carousel-head {
+    max-inline-size: 42rem;
+    margin-block-end: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+  }
+
+  .carousel-kicker {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: var(--sun-300);
+    text-transform: uppercase;
+    margin-block-end: 0.65rem;
+  }
+
+  .carousel-title {
+    font-size: clamp(2.1rem, 1.7rem + 2.2vw, 3.25rem);
+    font-weight: 900;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-block-end: 0.75rem;
+  }
+
+  .carousel-subtitle {
+    font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.1rem);
+    color: var(--cream-200);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Pista Infinita (Marquee fluido a 60fps) */
+  .carousel-marquee {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding-block: 0.75rem 1.25rem;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 4%,
+      black 96%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 4%,
+      black 96%,
+      transparent 100%
+    );
+  }
+
+  @media (max-width: 640px) {
+    .carousel-marquee {
+      mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 2%,
+        black 98%,
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 2%,
+        black 98%,
+        transparent 100%
+      );
+    }
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: clamp(1rem, 1.2vw, 1.5rem);
+    width: max-content;
+    animation: infiniteScroll 55s linear infinite;
+    will-change: transform;
+  }
+
+  /* Pausa suave al pasar el cursor o interactuar */
+  .carousel-marquee:hover .carousel-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes infiniteScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Tarjeta: 3:4 Vertical estricto, sin recortes, estática y limpia */
+  .carousel-card {
+    flex: 0 0 clamp(16.5rem, 14.5rem + 7vw, 20.5rem);
+    aspect-ratio: 3 / 4; /* Formato vertical nativo de las 14 fotos */
+    border-radius: 1.25rem;
+    overflow: hidden;
+    position: relative;
+    background: #180c05;
+    border: 1px solid oklch(0.985 0.01 85 / 0.12);
+    box-shadow: 0 10px 26px -6px rgba(0, 0, 0, 0.5);
+  }
+
+  .carousel-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    display: block;
+    transform: none; /* Asegura que la imagen NUNCA haga zoom */
+  }
+</style>

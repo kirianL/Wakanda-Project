@@ -1,0 +1,39 @@
+---
+/**
+ * Página Principal (Landing Page) - Wakanda Project
+ * Réplica fiel del diseño de referencia de alto impacto.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SiteNavbar from '@/components/sections/SiteNavbar';
+import Hero from '@/components/sections/Hero.astro';
+import Manifesto from '@/components/sections/Manifesto.astro';
+import RhythmMarquee from '@/components/sections/RhythmMarquee.astro';
+import Values from '@/components/sections/Values.astro';
+import Programs from '@/components/sections/Programs.astro';
+import QuoteBanner from '@/components/sections/QuoteBanner.astro';
+import PhotoCarousel from '@/components/sections/PhotoCarousel.astro';
+import Families from '@/components/sections/Families.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import Enrollment from '@/components/sections/Enrollment.astro';
+import SiteFooter from '@/components/sections/SiteFooter.astro';
+import { nav, hero } from '@/data/content';
+---
+
+<BaseLayout>
+  <SiteNavbar client:load navItems={nav} reserveHref={hero.primaryCta.href} />
+
+  <main id="contenido-principal">
+    <Hero />
+    <Manifesto />
+    <RhythmMarquee />
+    <Values />
+    <Programs />
+    <QuoteBanner />
+    <PhotoCarousel />
+    <Families />
+    <FAQ />
+    <Enrollment />
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

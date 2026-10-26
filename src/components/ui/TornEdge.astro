@@ -1,0 +1,83 @@
+---
+/**
+ * Borde de papel rasgado realista (Torn Paper Edge).
+ * Une secciones de distinto color emulando una revista o poster editorial recortado a mano.
+ */
+interface Props {
+  color?: string;
+  edge?: 'top' | 'bottom';
+  shadow?: boolean;
+  class?: string;
+}
+
+const { color = 'var(--cream-50)', edge = 'bottom', shadow = true, class: className } = Astro.props;
+---
+
+<div
+  class:list={['torn-edge-container', `torn-edge--${edge}`, { 'torn-edge--shadow': shadow }, className]}
+  style={`--torn-color: ${color}`}
+  aria-hidden="true"
+>
+  <svg
+    class="torn-edge-svg"
+    viewBox="0 0 1440 80"
+    preserveAspectRatio="none"
+    focusable="false"
+  >
+    <path
+      d="M0,80 L0,45 
+         C25,35 45,55 75,42 
+         C105,30 130,52 165,38 
+         C195,25 220,48 255,44 
+         C285,40 310,22 345,36 
+         C375,50 405,32 440,46 
+         C475,60 510,38 545,42 
+         C580,46 605,25 640,35 
+         C675,45 700,62 735,48 
+         C770,34 800,52 835,39 
+         C870,26 895,44 930,48 
+         C965,52 995,30 1030,42 
+         C1065,54 1100,32 1135,36 
+         C1170,40 1195,58 1230,45 
+         C1265,32 1295,50 1330,38 
+         C1365,26 1395,48 1440,35 
+         L1440,80 Z"
+      fill="var(--torn-color)"
+    ></path>
+  </svg>
+</div>
+
+<style>
+  .torn-edge-container {
+    position: absolute;
+    inset-inline: 0;
+    z-index: 10;
+    inline-size: 100%;
+    block-size: clamp(2.5rem, 1.8rem + 3vw, 5rem);
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .torn-edge-svg {
+    inline-size: 100%;
+    block-size: 100%;
+    display: block;
+  }
+
+  .torn-edge--bottom {
+    inset-block-end: -1px;
+  }
+
+  .torn-edge--top {
+    inset-block-start: -1px;
+    transform: rotate(180deg);
+  }
+
+  .torn-edge--shadow {
+    filter: drop-shadow(0 -10px 20px oklch(0 0 0 / 0.4));
+  }
+
+  .torn-edge--top.torn-edge--shadow {
+    filter: drop-shadow(0 10px 20px oklch(0 0 0 / 0.4));
+  }
+</style>

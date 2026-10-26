@@ -1,0 +1,495 @@
+---
+/**
+ * Hero — layout editorial con la paleta original de marca (tierra, ocre, sol, crema).
+ * Estructura:
+ *  - Fila superior: kicker + métrica.
+ *  - Escenario: titular monumental que atraviesa la pantalla, con el bailarín
+ *    en un marco vertical que rompe la tipografía (va por delante de "NACE").
+ *  - Columna izquierda: texto + CTA. Derecha: tarjeta "Disciplina" collage.
+ *  - Borde de papel rasgado hacia la sección blanca.
+ */
+import { Image } from 'astro:assets';
+import photoHero from '@/assets/photos/7.jpg';
+import photoPolaroidA from '@/assets/photos/6.jpg';
+import photoPolaroidB from '@/assets/photos/1.jpg';
+import TornEdge from '@/components/ui/TornEdge.astro';
+---
+
+<section id="inicio" class="hero" aria-labelledby="hero-title">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__grain" aria-hidden="true"></div>
+
+  <div class="hero__inner container">
+    <!-- Fila superior -->
+    <div class="hero__top">
+      <span class="hero__kicker">Danza afro &amp; urbana · 4 a 15 años</span>
+    </div>
+
+    <!-- Escenario tipográfico -->
+    <div class="hero__stage">
+      <h1 id="hero-title" class="hero__title">
+        <span class="hero__line hero__line--1">El ritmo</span>
+        <span class="hero__line hero__line--2">nace</span>
+        <span class="hero__line hero__line--3">aquí</span>
+      </h1>
+
+      <figure class="hero__frame">
+        <Image
+          src={photoHero}
+          alt="Bailarines de Wakanda Project en pleno salto en el escenario teatral de Limón"
+          class="hero__frame-img"
+          widths={[360, 560, 760]}
+          sizes="(width < 48rem) 60vw, 26vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <figcaption class="hero__frame-tag">Escenario · Danza Afro</figcaption>
+      </figure>
+
+      <span class="hero__sticker" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <defs><path id="hero-circle" d="M50 50 m-38 0 a38 38 0 1 1 76 0 a38 38 0 1 1 -76 0" /></defs>
+          <text><textPath href="#hero-circle">AFRO · URBANO · CULTURA · COMUNIDAD ·</textPath></text>
+        </svg>
+        <b>✶</b>
+      </span>
+    </div>
+
+    <!-- Fila inferior -->
+    <div class="hero__bottom">
+      <div class="hero__cta-block">
+        <p class="hero__lead">
+          Un espacio seguro donde la niñez crece con ritmo, disciplina y orgullo por su cultura.
+        </p>
+        <div class="hero__actions">
+          <a href="#inscripcion" class="hero__btn hero__btn--solid">
+            Primera clase gratis
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </a>
+          <a href="#proyecto" class="hero__btn hero__btn--ghost">Conoce el proyecto</a>
+        </div>
+      </div>
+
+      <div class="hero__collage" aria-hidden="true">
+        <div class="hero__polaroid hero__polaroid--a">
+          <Image src={photoPolaroidA} alt="" width={240} height={300} class="hero__polaroid-img" />
+        </div>
+        <div class="hero__polaroid hero__polaroid--b">
+          <Image src={photoPolaroidB} alt="" width={240} height={300} class="hero__polaroid-img" />
+          <span>Disciplina</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <TornEdge color="#ffffff" edge="bottom" shadow={true} />
+</section>
+
+<style>
+  .hero {
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    isolation: isolate;
+    min-height: 100svh;
+    padding-block: clamp(6rem, 5rem + 3vw, 7.5rem) clamp(5rem, 4rem + 4vw, 8rem);
+    color: var(--cream-50);
+    overflow: hidden;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-color: var(--ochre-600);
+    background-image:
+      linear-gradient(105deg, oklch(0.22 0.05 56 / 0.86) 0%, oklch(0.26 0.06 56 / 0.52) 45%, oklch(0.26 0.06 56 / 0.18) 100%),
+      linear-gradient(to top, oklch(0.19 0.035 58 / 0.75) 0%, transparent 35%),
+      url('/textures/pattern-ochre.webp');
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .hero__grain {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.18;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .hero__inner {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    min-height: calc(100svh - 13rem);
+  }
+
+  /* ---------- Top ---------- */
+  /* ---------- Top ---------- */
+  .hero__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero__kicker {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cream-200);
+  }
+
+  /* ---------- Stage ---------- */
+  .hero__stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 3rem);
+  }
+
+  .hero__title {
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(3.75rem, 1rem + 8vw, 9.5rem);
+    line-height: 0.82;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    color: var(--cream-50);
+  }
+
+  .hero__line {
+    display: block;
+    animation: hero-rise 0.9s var(--ease) both;
+  }
+
+  .hero__line--1 { animation-delay: 0.05s; }
+  .hero__line--2 {
+    padding-inline-start: 18%;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--cream-50);
+    animation-delay: 0.15s;
+  }
+  .hero__line--3 {
+    padding-inline-start: 6%;
+    color: var(--sun-300);
+    animation-delay: 0.25s;
+  }
+
+  .hero__frame {
+    position: relative;
+    inline-size: clamp(12rem, 6rem + 13vw, 19rem);
+    aspect-ratio: 3 / 4;
+    margin: 0;
+    padding: 0.5rem;
+    border-radius: 1.5rem;
+    background: var(--cream-50);
+    box-shadow: 0 40px 80px -20px oklch(0.19 0.035 58 / 0.7);
+    transform: rotate(4deg);
+    animation: hero-frame 1.1s var(--ease) 0.2s both;
+  }
+
+  .hero__frame-img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+  }
+
+  .hero__frame-tag {
+    position: absolute;
+    inset-block-end: -0.9rem;
+    inset-inline-start: 50%;
+    translate: -50% 0;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    background: var(--earth-900);
+    color: var(--cream-50);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .hero__sticker {
+    position: absolute;
+    inset-inline-end: clamp(10rem, 5rem + 12vw, 17rem);
+    inset-block-start: 2%;
+    z-index: 2;
+    inline-size: clamp(5.5rem, 4rem + 4vw, 8rem);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--sun-300);
+    color: var(--earth-900);
+  }
+
+  .hero__sticker svg {
+    position: absolute;
+    inset: 0;
+    animation: hero-spin 18s linear infinite;
+  }
+
+  .hero__sticker text {
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    fill: currentColor;
+  }
+
+  .hero__sticker b { font-size: 1.75rem; }
+
+  /* ---------- Bottom ---------- */
+  .hero__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+  }
+
+  .hero__cta-block {
+    max-inline-size: 30rem;
+    animation: hero-rise 0.9s var(--ease) 0.4s both;
+  }
+
+  .hero__lead {
+    font-size: var(--text-lead);
+    line-height: 1.35;
+    color: var(--cream-100);
+    text-wrap: pretty;
+    margin-block-end: 1.5rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-block-size: 3rem;
+    padding-inline: 1.5rem 1.35rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.16s var(--ease), background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hero__btn:active { transform: scale(0.96); }
+
+  .hero__btn--solid {
+    background: var(--cream-50);
+    color: var(--earth-900);
+    box-shadow: 0 12px 30px -8px oklch(0.19 0.035 58 / 0.6);
+  }
+
+  .hero__btn--solid svg { transition: transform 0.2s var(--ease); }
+
+  .hero__btn--ghost {
+    padding-inline: 1.5rem;
+    border: 1px solid oklch(0.985 0.01 85 / 0.4);
+    color: var(--cream-50);
+    background: oklch(0.985 0.01 85 / 0.06);
+    backdrop-filter: blur(12px);
+  }
+
+  @media (hover: hover) {
+    .hero__btn--solid:hover { background: var(--sun-300); }
+    .hero__btn--solid:hover svg { transform: translateX(3px); }
+    .hero__btn--ghost:hover { background: oklch(0.985 0.01 85 / 0.16); }
+  }
+
+  .hero__collage {
+    display: none;
+    inline-size: 15rem;
+    block-size: 12rem;
+    flex-shrink: 0;
+  }
+
+  .hero__polaroid {
+    position: absolute;
+    inline-size: 8.5rem;
+    padding: 0.4rem 0.4rem 1.6rem;
+    background: var(--cream-50);
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 40px -12px oklch(0.19 0.035 58 / 0.6);
+    transition: transform 0.5s var(--ease);
+  }
+
+  .hero__polaroid-img {
+    inline-size: 100%;
+    aspect-ratio: 4 / 5;
+    block-size: auto;
+    object-fit: cover;
+    border-radius: 0.25rem;
+  }
+
+  .hero__polaroid span {
+    position: absolute;
+    inset-block-end: 0.35rem;
+    inset-inline: 0;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--earth-900);
+  }
+
+  .hero__polaroid--a { inset-inline-start: 0; inset-block-start: 0; transform: rotate(-8deg); }
+  .hero__polaroid--b { inset-inline-end: 0; inset-block-end: 0; transform: rotate(6deg); }
+
+  @media (hover: hover) {
+    .hero__collage:hover .hero__polaroid--a { transform: rotate(-12deg) translate(-8px, -6px); }
+    .hero__collage:hover .hero__polaroid--b { transform: rotate(9deg) translate(8px, 4px); }
+  }
+
+  /* ---------- Motion ---------- */
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes hero-frame {
+    from { opacity: 0; transform: translateY(40px) rotate(-4deg) scale(0.9); }
+    to { opacity: 1; transform: rotate(4deg); }
+  }
+
+  @keyframes hero-spin { to { transform: rotate(360deg); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__line, .hero__frame, .hero__cta-block { animation: none; }
+    .hero__sticker svg { animation: none; }
+  }
+
+  /* ---------- Mobile (< 48rem) Declutter & Native Feel ---------- */
+  @media (width < 48rem) {
+    .hero {
+      padding-block-start: clamp(5rem, 4.5rem + 3vw, 6rem);
+      padding-block-end: clamp(4.5rem, 4rem + 4vw, 5.5rem);
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero__inner {
+      min-height: auto;
+      gap: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Fila superior: solo el kicker limpio */
+    .hero__top {
+      justify-content: flex-start;
+      margin-block-end: 0;
+    }
+
+    .hero__stat {
+      display: none;
+    }
+
+    .hero__kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+    }
+
+    /* Escenario tipográfico balanceado */
+    .hero__stage {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+      position: relative;
+    }
+
+    .hero__title {
+      font-size: clamp(2.6rem, 11.5vw, 3.85rem);
+      line-height: 0.88;
+      width: 100%;
+    }
+
+    .hero__line--1 { padding-inline-start: 0; }
+    .hero__line--2 { padding-inline-start: 8%; }
+    .hero__line--3 { padding-inline-start: 2%; }
+
+    /* Ocultar sticker en mobile para eliminar saturación visual */
+    .hero__sticker {
+      display: none !important;
+    }
+
+    /* Marco de foto proporcionado, centrado y con sombra suave */
+    .hero__frame {
+      position: relative;
+      inline-size: min(14.5rem, 62vw);
+      aspect-ratio: 4 / 4.9;
+      margin-inline: auto;
+      margin-block: 0.25rem 0.65rem;
+      transform: rotate(-2deg);
+      box-shadow: 0 20px 45px -10px oklch(0.19 0.035 58 / 0.65);
+      animation: none;
+    }
+
+    .hero__frame-tag {
+      font-size: 0.68rem;
+      padding: 0.3rem 0.75rem;
+      inset-block-end: -0.75rem;
+    }
+
+    /* Fila inferior: lead conciso + un solo CTA directo */
+    .hero__bottom {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.85rem;
+    }
+
+    .hero__cta-block {
+      max-inline-size: 100%;
+      animation: none;
+    }
+
+    .hero__lead {
+      font-size: 0.92rem;
+      line-height: 1.4;
+      margin-block-end: 0.85rem;
+      text-wrap: balance;
+    }
+
+    .hero__actions {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .hero__btn--solid {
+      width: 100%;
+      justify-content: center;
+      min-block-size: 3.1rem;
+      font-size: 0.86rem;
+    }
+
+    /* Ocultar botón secundario y collage en mobile */
+    .hero__btn--ghost,
+    .hero__collage {
+      display: none !important;
+    }
+  }
+</style>

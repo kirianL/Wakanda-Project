@@ -1,0 +1,99 @@
+---
+/**
+ * Ticker / Marquee Inferior continuo (Réplica del banner del diseño de referencia)
+ * "WAKANDA PROJECT ✶ CLASES 2026 ✶ RITMO AFRO ✶ DANZA URBANA ✶"
+ */
+const marqueeItems = [
+  'WAKANDA PROJECT',
+  'CLASES 2026',
+  'RITMO AFRO',
+  'DANZA URBANA',
+  'IDENTIDAD & COMUNIDAD',
+  'MATRÍCULA ABIERTA',
+];
+---
+
+<section class="ticker" aria-label="Anuncio continuo de la academia">
+  <div class="ticker__viewport">
+    {
+      [false, true].map((isClone) => (
+        <ul class="ticker__track" role="list" aria-hidden={isClone || undefined}>
+          {marqueeItems.map((item) => (
+            <li class="ticker__item">
+              <span>{item}</span>
+              <span class="ticker__star" aria-hidden="true">✶</span>
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .ticker {
+    position: relative;
+    z-index: 5;
+    background: #080302;
+    padding-block: clamp(1.2rem, 1rem + 1vw, 2rem);
+    border-block-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-block-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+
+  .ticker__viewport {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .ticker__track {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+    padding: 0 clamp(1.5rem, 1rem + 2vw, 3rem) 0 0;
+    animation: ticker-slide 20s linear infinite;
+    will-change: transform;
+  }
+
+  .ticker:hover .ticker__track {
+    animation-play-state: paused;
+  }
+
+  .ticker__item {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.5rem + 3vw, 4.5rem);
+    font-weight: 900;
+    font-stretch: var(--width-expanded);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ochre-500);
+    white-space: nowrap;
+  }
+
+  .ticker__star {
+    color: var(--sun-300);
+    font-size: 0.8em;
+    display: inline-block;
+  }
+
+  @keyframes ticker-slide {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker__track {
+      animation: none !important;
+    }
+  }
+</style>

@@ -1,0 +1,206 @@
+---
+/**
+ * Cabecera fija. Se vuelve sólida al hacer scroll mediante una animación
+ * ligada al scroll del documento (sin JS). El menú móvil usa la Popover API:
+ * cierre con Escape y clic fuera incluidos de forma nativa.
+ */
+import { Image } from 'astro:assets';
+import logo from '@/assets/brand/logo-inline-earth.png';
+import { nav, hero } from '@/data/content';
+import Button from '@/components/ui/Button.astro';
+---
+
+<header class="site-header">
+  <div class="site-header__inner container">
+    <a href="#inicio" class="site-header__brand" aria-label="Wakanda Project, ir al inicio">
+      <Image src={logo} alt="" width={180} loading="eager" />
+    </a>
+
+    <nav class="site-header__nav" aria-label="Principal">
+      <ul role="list">
+        {nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <Button href={hero.primaryCta.href} class="site-header__cta">Reserva una clase</Button>
+
+    <button
+      class="site-header__toggle"
+      type="button"
+      popovertarget="mobile-menu"
+      aria-label="Abrir menú"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu" popover data-surface="ink">
+    <button class="mobile-menu__close" type="button" popovertarget="mobile-menu" popovertargetaction="hide" aria-label="Cerrar menú">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
+      </svg>
+    </button>
+    <nav aria-label="Menú móvil">
+      <ul role="list">
+        {nav.map((item) => (
+          <li><a href={item.href} data-close-menu>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <Button href={hero.primaryCta.href} onInk>{hero.primaryCta.label}</Button>
+  </div>
+</header>
+
+<script>
+  // Cierra el popover al elegir un destino del menú móvil.
+  const menu = document.getElementById('mobile-menu');
+  menu?.addEventListener('click', (event) => {
+    if ((event.target as HTMLElement).closest('a')) menu.hidePopover();
+  });
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: var(--z-header);
+    padding-block: var(--space-3);
+    background: oklch(0.985 0.01 85 / 0.88);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    border-bottom: 1px solid oklch(0.26 0.06 56 / 0.08);
+    box-shadow: 0 4px 20px -2px oklch(0.19 0.035 58 / 0.04);
+    transition: background-color var(--duration-fast), box-shadow var(--duration-fast);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .site-header__brand {
+    display: block;
+    inline-size: clamp(8rem, 6rem + 4vw, 10.5rem);
+    margin-inline-end: auto;
+  }
+
+  .site-header__nav ul {
+    display: flex;
+    gap: var(--space-1);
+    padding: 0;
+  }
+
+  .site-header__nav a {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .site-header__nav a:hover {
+      background: oklch(0.26 0.06 56 / 0.08);
+    }
+  }
+
+  .site-header__toggle,
+  .mobile-menu__close {
+    display: grid;
+    place-items: center;
+    inline-size: 3rem;
+    block-size: 3rem;
+    padding: 0;
+    border: 2px solid currentColor;
+    border-radius: var(--radius-pill);
+    background: transparent;
+  }
+
+  .site-header__toggle svg,
+  .mobile-menu__close svg {
+    inline-size: 1.5rem;
+  }
+
+  /* El menú completo cabe a partir de ~62rem; antes, menú móvil. */
+  @media (width < 62rem) {
+    .site-header__nav,
+    .site-header__cta {
+      display: none;
+    }
+  }
+
+  @media (width >= 62rem) {
+    .site-header__toggle {
+      display: none;
+    }
+  }
+
+  /* ---------- Menú móvil (popover) ---------- */
+  .mobile-menu {
+    inset: 0;
+    inline-size: 100%;
+    max-inline-size: none;
+    block-size: 100dvh;
+    max-block-size: none;
+    padding: var(--space-5) var(--gutter) var(--space-7);
+    border: 0;
+    background: var(--color-bg-ink) url('/textures/pattern-earth.webp') center / 32rem;
+    color: var(--color-text-on-ink);
+    overscroll-behavior: contain;
+  }
+
+  .mobile-menu:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .mobile-menu__close {
+    align-self: flex-end;
+  }
+
+  .mobile-menu ul {
+    display: grid;
+    gap: var(--space-2);
+    padding: 0;
+  }
+
+  .mobile-menu a:not(.button) {
+    font-family: var(--font-display);
+    font-size: var(--text-display-m);
+    font-weight: 900;
+    font-stretch: var(--width-expanded);
+    line-height: 1.1;
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-menu {
+      transition-property: opacity, translate, display, overlay;
+      transition-duration: var(--duration-base);
+      transition-timing-function: var(--ease-out);
+      transition-behavior: allow-discrete;
+      opacity: 0;
+      translate: 0 -1rem;
+    }
+
+    .mobile-menu:popover-open {
+      opacity: 1;
+      translate: 0 0;
+    }
+
+    @starting-style {
+      .mobile-menu:popover-open {
+        opacity: 0;
+        translate: 0 -1rem;
+      }
+    }
+  }
+</style>

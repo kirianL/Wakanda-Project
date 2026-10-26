@@ -1,0 +1,256 @@
+/* ==========================================================================
+   Wakanda Project — Base global
+   Reset moderno, tipografía raíz, foco accesible y utilidades compartidas.
+   Los estilos de cada sección viven en su propio componente (scoped).
+   ========================================================================== */
+
+@import './tokens.css';
+@import './navbar.css';
+@import 'slot-text/style.css';
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  hanging-punctuation: first last;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+body {
+  min-height: 100svh;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-optical-sizing: auto;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video,
+picture {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+input,
+button,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: from-font;
+  text-underline-position: from-font;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: var(--width-wordmark);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--color-bg-highlight);
+  color: var(--color-text-primary);
+}
+
+/* ---------- Foco visible (solo teclado) ---------- */
+:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+[data-surface='ink'] :focus-visible {
+  outline-color: var(--color-focus-ring-on-ink);
+}
+
+/* ---------- Utilidades ---------- */
+.container {
+  width: min(100% - 2 * var(--gutter), var(--content-max));
+  margin-inline: auto;
+}
+
+.visually-hidden:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.label {
+  font-family: var(--font-display);
+  font-size: var(--text-label);
+  font-weight: 800;
+  font-stretch: var(--width-expanded);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  inset-block-start: var(--space-3);
+  inset-inline-start: var(--space-3);
+  z-index: 100;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-action-solid);
+  color: var(--color-action-on-solid);
+  font-weight: 700;
+  translate: 0 -200%;
+  transition: translate var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  translate: 0 0;
+}
+
+/* ---------- Grano de papel (decorativo) ---------- */
+.paper-grain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Revelado al hacer scroll ----------
+   Usa animaciones ligadas al scroll (nativas, sin JS) solo si el navegador
+   las soporta y la persona no pidió movimiento reducido. Sin soporte, el
+   contenido simplemente se muestra. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-reveal] {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+
+    [data-reveal='pop'] {
+      animation-name: reveal-pop;
+    }
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 2.5rem;
+  }
+}
+
+@keyframes reveal-pop {
+  from {
+    opacity: 0;
+    scale: 0.85;
+    rotate: var(--reveal-rotate, -6deg);
+  }
+}
+
+/* ---------- Movimiento reducido (Apple Design & Accessibility) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Transparencia reducida (Apple Design) ---------- */
+@media (prefers-reduced-transparency: reduce) {
+  .site-nav-pill,
+  .site-nav-dock,
+  .site-nav-drawer,
+  .hero__badge,
+  .bento-card__glass-badge,
+  .families-sec__stat-chip {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .site-nav-dock {
+    background: oklch(0.26 0.06 56 / 0.95) !important;
+  }
+
+  .site-nav-drawer {
+    background: oklch(0.26 0.06 56 / 1) !important;
+  }
+
+  .hero__badge,
+  .bento-card__glass-badge,
+  .families-sec__stat-chip {
+    background: #ffffff !important;
+  }
+}
+
+/* ---------- Alto contraste (Apple Design) ---------- */
+@media (prefers-contrast: more) {
+  .site-nav-pill,
+  .site-nav-drawer,
+  .hero__badge,
+  .bento-card,
+  .val-card,
+  .prog-card,
+  .fam-testimony,
+  .families-sec__frame,
+  .enroll-card {
+    border-color: currentColor !important;
+  }
+}

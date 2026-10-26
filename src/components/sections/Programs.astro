@@ -1,0 +1,179 @@
+---
+/**
+ * Sección de Clases y Programas
+ * Formatos por edad (Semillas, Raíces, Tribu) con ficha de ritmos y horarios.
+ */
+import { programs } from '@/data/content';
+import Button from '@/components/ui/Button.astro';
+---
+
+<section id="clases" class="classes-sec" aria-labelledby="classes-title">
+  <div class="container">
+    <div class="classes-sec__header" data-reveal>
+      <h2 id="classes-title" class="classes-sec__title">Danza Para Cada Etapa</h2>
+      <p class="classes-sec__subtitle">
+        Procesos formativos diseñados para el desarrollo corporal, rítmico y emocional según la edad de cada niña y niño.
+      </p>
+    </div>
+
+    <div class="classes-sec__grid">
+      {programs.map((prog) => (
+        <article class="prog-card" data-featured={prog.featured || undefined} data-reveal>
+          <div class="prog-card__header">
+            <span class="prog-card__age">{prog.ages}</span>
+            <h3 class="prog-card__name">{prog.name}</h3>
+          </div>
+
+          <p class="prog-card__summary">{prog.summary}</p>
+
+          <div class="prog-card__meta">
+            <span class="prog-card__meta-label">Horario</span>
+            <span class="prog-card__meta-value">{prog.schedule}</span>
+          </div>
+
+          <Button href="#inscripcion" variant={prog.featured ? 'solid' : 'ghost'} class="prog-card__btn">
+            Elegir grupo
+          </Button>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .classes-sec {
+    position: relative;
+    padding-block: var(--space-section);
+    background: var(--color-bg-page);
+  }
+
+  .classes-sec__header {
+    max-inline-size: 52ch;
+    margin-block-end: var(--space-8);
+  }
+
+  .classes-sec__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.35rem 0.85rem;
+    background: oklch(0.66 0.18 50 / 0.1);
+    color: var(--color-bg-accent-deep);
+    border-radius: var(--radius-pill);
+    margin-block-end: var(--space-3);
+  }
+
+  .classes-sec__dot {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-bg-accent-deep);
+  }
+
+  .classes-sec__title {
+    font-size: var(--text-display-m);
+    font-stretch: var(--width-expanded);
+    text-transform: uppercase;
+    line-height: 1.05;
+    margin-block-end: var(--space-3);
+  }
+
+  .classes-sec__subtitle {
+    font-size: var(--text-lead);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .classes-sec__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-6);
+    align-items: stretch;
+  }
+
+  /* Ultra-clean modern minimalist card */
+  .prog-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+    background: #ffffff;
+    border: 1px solid oklch(0.26 0.06 56 / 0.08);
+    border-radius: var(--radius-xl);
+    transition: border-color var(--duration-fast) var(--ease-out),
+                transform var(--duration-fast) var(--ease-out),
+                box-shadow var(--duration-fast) var(--ease-out);
+  }
+
+  .prog-card[data-featured] {
+    background: #ffffff;
+    border-color: var(--color-bg-accent-deep);
+    box-shadow: 0 12px 32px -4px oklch(0.66 0.18 50 / 0.12);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .prog-card:hover {
+      border-color: oklch(0.26 0.06 56 / 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 36px -6px oklch(0.19 0.035 58 / 0.08);
+    }
+  }
+
+  .prog-card__header {
+    margin-block-end: var(--space-3);
+  }
+
+  .prog-card__age {
+    display: block;
+    font-size: var(--text-label);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-bg-accent-deep);
+    margin-block-end: var(--space-1);
+  }
+
+  .prog-card__name {
+    font-size: var(--text-display-m);
+    font-stretch: var(--width-expanded);
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--color-text-primary);
+  }
+
+  .prog-card__summary {
+    font-size: var(--text-body-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-block-end: var(--space-6);
+    flex-grow: 1;
+  }
+
+  .prog-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-block: var(--space-4);
+    border-block-start: 1px solid oklch(0.26 0.06 56 / 0.08);
+    margin-block-end: var(--space-4);
+  }
+
+  .prog-card__meta-label {
+    font-size: var(--text-label);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .prog-card__meta-value {
+    font-size: var(--text-body-sm);
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .prog-card__btn {
+    inline-size: 100%;
+    justify-content: center;
+  }
+</style>

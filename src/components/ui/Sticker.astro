@@ -1,0 +1,77 @@
+---
+/**
+ * Sello circular giratorio con texto en curva y el isotipo al centro.
+ * Puramente decorativo: el texto se repite en otras partes de la página.
+ */
+import { Image } from 'astro:assets';
+import isotype from '@/assets/brand/isotype-earth.png';
+
+interface Props {
+  text: string;
+  class?: string;
+}
+
+const { text, class: className } = Astro.props;
+---
+
+<div class:list={['sticker', className]} aria-hidden="true">
+  <svg class="sticker__ring" viewBox="0 0 200 200">
+    <defs>
+      <path id="sticker-circle" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"></path>
+    </defs>
+    <circle cx="100" cy="100" r="98" class="sticker__disc"></circle>
+    <text class="sticker__text">
+      <textPath href="#sticker-circle" textLength="462">{text}</textPath>
+    </text>
+  </svg>
+  <Image class="sticker__mark" src={isotype} alt="" width={120} />
+</div>
+
+<style>
+  .sticker {
+    position: relative;
+    display: grid;
+    place-items: center;
+    inline-size: clamp(7rem, 5rem + 6vw, 10.5rem);
+    aspect-ratio: 1;
+    filter: drop-shadow(4px 4px 0 var(--color-paper-shadow));
+  }
+
+  .sticker__ring {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .sticker__disc {
+    fill: var(--color-bg-highlight);
+  }
+
+  .sticker__text {
+    fill: var(--color-text-primary);
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 800;
+    font-stretch: 125;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sticker__mark {
+    position: relative;
+    inline-size: 34%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sticker__ring {
+      animation: spin 22s linear infinite;
+    }
+  }
+
+  @keyframes spin {
+    to {
+      rotate: 1turn;
+    }
+  }
+</style>

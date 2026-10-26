@@ -1,0 +1,84 @@
+---
+/**
+ * Iconos de valores como recortes de papel.
+ * Formas originales, rellenas con `currentColor` para heredar el color
+ * de la tarjeta. Son decorativos: el título del valor da el significado.
+ */
+import type { ValueIconName } from '@/data/content';
+
+interface Props {
+  name: ValueIconName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const sunRays = [0, 45, 90, 135, 180, 225, 270, 315];
+---
+
+<svg
+  class:list={['value-icon', className]}
+  viewBox="0 0 120 120"
+  fill="currentColor"
+  aria-hidden="true"
+  focusable="false"
+>
+  {
+    name === 'identity' && (
+      // Sol sobre raíces: la cultura que nos nutre
+      <g>
+        {sunRays.map((deg) => (
+          <rect x="55" y="4" width="10" height="18" rx="5" transform={`rotate(${deg} 60 46)`} />
+        ))}
+        <path
+          fill-rule="evenodd"
+          d="M60 25a21 21 0 1 1 0 42a21 21 0 1 1 0-42Zm0 13a8 8 0 1 0 0 16a8 8 0 1 0 0-16Z"
+        />
+        <g fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round">
+          <path d="M60 72c0 14-8 22-18 38" />
+          <path d="M60 72v40" />
+          <path d="M60 72c0 14 8 22 18 38" />
+        </g>
+      </g>
+    )
+  }
+  {
+    name === 'discipline' && (
+      // Escalones con una figura que sube: constancia paso a paso
+      <g>
+        <path d="M13 76c0-4 3-6 7-6h16c4 0 6 2 6 6v34H13Z" />
+        <path d="M46 52c0-4 3-6 7-6h15c4 0 6 2 6 6v58H46Z" />
+        <path d="M79 30c0-4 2-6 6-6h16c4 0 6 2 6 6v80H79Z" />
+        <circle cx="93" cy="11" r="8" />
+      </g>
+    )
+  }
+  {
+    name === 'community' && (
+      // Tres figuras unidas en una misma silueta
+      <g>
+        <circle cx="30" cy="42" r="11" />
+        <circle cx="60" cy="30" r="12" />
+        <circle cx="90" cy="42" r="11" />
+        <path d="M8 108c2-28 12-46 22-46 8 0 13 6 16 12 4-17 8-26 14-26s10 9 14 26c3-6 8-12 16-12 10 0 20 18 22 46Z" />
+      </g>
+    )
+  }
+  {
+    name === 'confidence' && (
+      // Destello: la chispa de subir al escenario
+      <polygon
+        stroke="currentColor"
+        stroke-width="6"
+        stroke-linejoin="round"
+        points="60,6 68.4,39.7 93.9,26.1 80.3,51.6 114,60 80.3,68.4 92.5,92.5 68.4,80.3 60,112 51.6,80.3 26.1,93.9 39.7,68.4 6,60 39.7,51.6 27.5,27.5 51.6,39.7"
+      />
+    )
+  }
+</svg>
+
+<style>
+  .value-icon {
+    width: 100%;
+    height: auto;
+  }
+</style>

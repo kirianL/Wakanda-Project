@@ -1,0 +1,381 @@
+/* ==========================================================================
+   Site Navbar — Minimalist Capsule Navigation (Reference Replica)
+   ========================================================================== */
+
+.site-nav-header {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: calc(var(--z-header, 50) + 20);
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+}
+
+.site-nav-header.is-scrolled:not(.is-drawer-open) {
+  padding: 0.75rem 1.75rem;
+  background: oklch(0.26 0.06 56 / 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-block-end: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Floating Navigation Wrapper */
+.site-nav-pill {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 82rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* Brand Logo (Pure white on stage) */
+.site-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.site-nav-brand-img {
+  height: clamp(3rem, 2.5rem + 1.2vw, 3.85rem);
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, transform 0.2s ease;
+}
+
+.site-nav-header.is-scrolled .site-nav-brand-img {
+  height: clamp(2.4rem, 2.1rem + 0.6vw, 2.85rem);
+}
+
+.site-nav-brand:hover .site-nav-brand-img {
+  opacity: 0.85;
+  transform: scale(1.02);
+}
+
+/* Unified Desktop Navigation Dock (Modern Floating Island) */
+.site-nav-dock {
+  display: none;
+  position: relative;
+  align-items: center;
+  padding: 0.35rem 0.4rem;
+  border-radius: var(--radius-pill, 9999px);
+  background: oklch(0.26 0.06 56 / 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 54rem) {
+  .site-nav-dock {
+    display: inline-flex;
+  }
+}
+
+/* Pastilla Deslizante Animada (Sliding Pill Indicator) */
+.site-nav-indicator {
+  position: absolute;
+  inset-block-start: 0.35rem;
+  inset-inline-start: 0;
+  block-size: calc(100% - 0.7rem);
+  border-radius: var(--radius-pill, 9999px);
+  background: rgba(255, 255, 255, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  will-change: transform, width, opacity;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.25s ease;
+}
+
+/* Items dentro de la pastilla unificada */
+.site-nav-dock-item {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1.15rem;
+  border-radius: var(--radius-pill, 9999px);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.82);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.18s ease;
+  white-space: nowrap;
+}
+
+.site-nav-dock-item:hover,
+.site-nav-dock-item.is-active {
+  color: #ffffff;
+}
+
+.site-nav-dock-item.is-active {
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav-indicator {
+    transition: none !important;
+  }
+}
+
+/* Actions Section */
+.site-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Solid White Pill CTA Button (Reference Replica) */
+.site-nav-cta {
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.35rem;
+  border-radius: var(--radius-pill, 9999px);
+  background: #ffffff;
+  color: #111111;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.18s ease, transform var(--duration-press) ease, box-shadow 0.18s ease;
+}
+
+@media (min-width: 38rem) {
+  .site-nav-cta {
+    display: inline-flex;
+  }
+}
+
+.site-nav-cta:hover {
+  background: #f0f0f0;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px -2px rgba(0, 0, 0, 0.45);
+}
+
+.site-nav-cta:active {
+  transform: scale(0.96);
+}
+
+/* ==========================================================================
+   Minimalist Animated Line Hamburger Button (No Circle / Pure Lines)
+   ========================================================================== */
+.site-nav-burger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s ease, transform var(--duration-press) ease;
+  z-index: calc(var(--z-header, 50) + 30);
+}
+
+@media (min-width: 54rem) {
+  .site-nav-burger {
+    display: none;
+  }
+}
+
+.site-nav-burger:hover {
+  opacity: 0.8;
+}
+
+.site-nav-burger:active {
+  transform: scale(0.92);
+}
+
+.burger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 999px;
+  transform-origin: center;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+}
+
+/* Morphing animation: 2 lines to 'X' */
+.site-nav-burger.is-open .burger-line--1 {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.site-nav-burger.is-open .burger-line--2 {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   Mobile Menu Drawer — Minimalist Editorial Canvas (No AI Slop)
+   ========================================================================== */
+.site-nav-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-header, 50) + 10);
+  background:
+    radial-gradient(circle at 85% 15%, oklch(0.66 0.18 50 / 0.16) 0%, transparent 55%),
+    oklch(0.19 0.035 58 / 0.98);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  color: #ffffff;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overscroll-behavior: contain;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.25s;
+}
+
+.site-nav-drawer.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.site-nav-drawer-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6.5rem 1.75rem clamp(2rem, 5vh, 3.5rem);
+}
+
+/* Pure Editorial Nav Links */
+.site-nav-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-block: auto 2rem;
+}
+
+.site-nav-drawer-link {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 8.5vw, 3.4rem);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.65);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.site-nav-drawer.is-open .site-nav-drawer-link {
+  animation: drawer-text-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--stagger-i, 0) * 0.045s + 0.08s);
+}
+
+@keyframes drawer-text-enter {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.site-nav-drawer-link:hover,
+.site-nav-drawer-link.is-active {
+  color: var(--sun-300);
+  transform: translateX(4px);
+}
+
+.site-nav-drawer-link:active {
+  transform: scale(0.97) translateX(4px);
+}
+
+/* Minimalist Drawer Footer */
+.site-nav-drawer-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-block-start: 1.5rem;
+  border-block-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site-nav-drawer-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  min-block-size: 3.25rem;
+  padding-inline: 1.5rem;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--cream-50);
+  color: var(--earth-900);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  touch-action: manipulation;
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.4);
+  transition: transform var(--duration-press) ease, background-color 0.18s ease;
+}
+
+.site-nav-drawer-cta:active {
+  transform: scale(0.96);
+  background: var(--sun-300);
+}
+
+.site-nav-drawer-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.site-nav-drawer-ig {
+  color: var(--sun-300);
+  text-decoration: none;
+  transition: opacity 0.18s ease;
+}
+
+.site-nav-drawer-ig:hover {
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .burger-line {
+    transition: none !important;
+  }
+  .site-nav-drawer.is-open .site-nav-drawer-link {
+    animation: none !important;
+  }
+}
