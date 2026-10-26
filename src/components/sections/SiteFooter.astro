@@ -56,6 +56,18 @@ import { site, nav } from '@/data/content';
     border-block-start: 4px solid var(--color-bg-accent);
   }
 
+  /* Extensión inferior para evitar cualquier espacio blanco al rebotar o bajo la barra de Safari */
+  .site-footer::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background: var(--color-bg-ink-deep);
+    pointer-events: none;
+  }
+
   .site-footer__container {
     display: grid;
     gap: var(--space-8);

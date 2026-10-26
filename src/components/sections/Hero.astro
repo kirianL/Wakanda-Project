@@ -93,7 +93,18 @@ import TornEdge from '@/components/ui/TornEdge.astro';
     min-height: 100svh;
     padding-block: clamp(6.5rem, calc(5.5rem + env(safe-area-inset-top, 0px)), 8rem) clamp(5rem, 4rem + 4vw, 8rem);
     color: var(--cream-50);
-    overflow: hidden;
+  }
+
+  /* Extensión hacia arriba para rebote elástico en iOS */
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background-color: #1f1004;
+    pointer-events: none;
   }
 
   .hero__bg {

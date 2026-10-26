@@ -4,8 +4,10 @@
 
 .site-nav-header {
   position: fixed;
-  inset-block-start: 0;
-  inset-inline: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: calc(var(--z-header, 50) + 20);
   padding-block-start: max(1rem, calc(env(safe-area-inset-top, 0px) + 0.35rem));
   padding-block-end: 0.85rem;
@@ -16,13 +18,24 @@
   transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
 }
 
+/* Extensión superior para sellar por completo el notch/status bar en iOS */
+.site-nav-header::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .site-nav-header.is-scrolled:not(.is-drawer-open) {
   padding-block-start: max(0.65rem, env(safe-area-inset-top, 0px));
   padding-block-end: 0.65rem;
   padding-inline: max(1.25rem, env(safe-area-inset-left, 0px)) max(1.25rem, env(safe-area-inset-right, 0px));
-  background: oklch(0.22 0.05 56 / 0.94);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: #1f1004;
   border-block-end: 1px solid rgba(255, 255, 255, 0.08);
 }
 
