@@ -1,8 +1,11 @@
 ---
 /**
- * Sección 2: Por Qué Elegir Wakanda (Bento Grid Moderno).
- * Reemplaza la baraja comprimida por una cuadrícula equilibrada y espaciosa,
- * con fotografías reales de alumnas y alumnos, textos legibles y tokens de marca.
+ * Sección 2: Por Qué Elegir Wakanda (Bento Grid Editorial).
+ * Pulido siguiendo los principios de better-ui:
+ * - Sin badges de píldora genéricos de IA: reemplazados por kickers tipográficos limpios.
+ * - Sin cajas flotantes de estadísticas: integradas en filas de metadatos con divisores sutiles y números tabulares.
+ * - Sin listas de checkmarks genéricas: narrativa editorial clara y jerarquía tipográfica precisa.
+ * - Delineados de imagen según better-ui (1px puro con baja opacidad).
  */
 import { Image } from 'astro:assets';
 import photo6 from '@/assets/photos/6.jpg';
@@ -21,30 +24,31 @@ import TornEdge from '@/components/ui/TornEdge.astro';
         Por qué elegir Wakanda
       </h2>
       <p class="why-us__subtitle">
-        Un método que combina técnica rigurosa, orgullo por nuestras raíces culturales y un entorno seguro donde cada estudiante crece con confianza.
+        Un método que une técnica rigurosa, orgullo por nuestras raíces culturales y un entorno seguro donde cada estudiante crece con confianza.
       </p>
     </div>
 
-    <!-- Cuadrícula Bento Asimétrica -->
+    <!-- Cuadrícula Bento Editorial -->
     <div class="bento-grid">
       <!-- Tarjeta 1 (Bento Principal - Span 2 columnas) -->
       <article class="bento-card bento-card--lead" data-reveal>
         <div class="bento-card__lead-content">
-          <span class="bento-badge bento-badge--accent">EQUIPO DOCENTE</span>
+          <span class="bento-kicker">01 · EQUIPO DOCENTE</span>
           <h3 class="bento-card__title bento-card__title--light">
             Instructores con experiencia en formación infantil y ritmos afro
           </h3>
           <p class="bento-card__text bento-card__text--light">
             Acompañamiento cercano en cada etapa. Corregimos postura, ritmo y coordinación con paciencia, respeto cultural y cero presión.
           </p>
-          <div class="bento-stats">
-            <div class="bento-stat-chip">
-              <strong>14</strong>
-              <span>Instructores</span>
+
+          <div class="bento-lead-meta">
+            <div class="bento-meta-item">
+              <span class="bento-meta-num">14</span>
+              <span class="bento-meta-txt">Instructores con trayectoria artística</span>
             </div>
-            <div class="bento-stat-chip">
-              <strong>4 a 15</strong>
-              <span>Años en 3 niveles</span>
+            <div class="bento-meta-item">
+              <span class="bento-meta-num">4 a 15</span>
+              <span class="bento-meta-txt">Años en tres grupos: Semillas, Raíces y Tribu</span>
             </div>
           </div>
         </div>
@@ -73,7 +77,7 @@ import TornEdge from '@/components/ui/TornEdge.astro';
           />
         </div>
         <div class="bento-card__body">
-          <span class="bento-badge">SEGURIDAD FÍSICA</span>
+          <span class="bento-kicker">02 · SEGURIDAD FÍSICA</span>
           <h3 class="bento-card__title">Piso acondicionado para danza</h3>
           <p class="bento-card__text">
             Tarima de madera diseñada para amortiguar caídas y proteger las articulaciones y rodillas al bailar.
@@ -94,7 +98,7 @@ import TornEdge from '@/components/ui/TornEdge.astro';
           />
         </div>
         <div class="bento-card__body">
-          <span class="bento-badge">AUTOCONFIANZA</span>
+          <span class="bento-kicker">03 · AUTOCONFIANZA</span>
           <h3 class="bento-card__title">Muestras trimestrales con público</h3>
           <p class="bento-card__text">
             Presentaciones en teatros reales con vestuarios y luces, para que bailen con orgullo y seguridad frente a sus familias.
@@ -115,27 +119,24 @@ import TornEdge from '@/components/ui/TornEdge.astro';
           />
         </div>
         <div class="bento-card__lead-content">
-          <span class="bento-badge">ORGANIZACIÓN FAMILIAR</span>
+          <span class="bento-kicker">04 · ORGANIZACIÓN FAMILIAR</span>
           <h3 class="bento-card__title">
             Horarios claros y grupos organizados por edad
           </h3>
           <p class="bento-card__text">
-            Turnos entre semana por la tarde (desde las 3:30 p.m.) y sábados durante la mañana (desde 8:30 a.m.), pensados para conciliar con la escuela sin estrés familiar.
+            Clases pensadas para conciliar con la escuela sin estrés. Grupos reducidos para brindar atención personalizada y comunicación transparente y directa con los tutores.
           </p>
-          <ul class="bento-feature-list" role="list">
-            <li>
-              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-              <span>Grupos pequeños para atención personalizada</span>
-            </li>
-            <li>
-              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-              <span>Comunicación directa y transparente con tutores</span>
-            </li>
-          </ul>
+
+          <div class="bento-lead-meta bento-lead-meta--light">
+            <div class="bento-meta-item">
+              <span class="bento-meta-num">3:30 p.m.</span>
+              <span class="bento-meta-txt">Turnos entre semana por la tarde</span>
+            </div>
+            <div class="bento-meta-item">
+              <span class="bento-meta-num">8:30 a.m.</span>
+              <span class="bento-meta-txt">Sábados durante la mañana</span>
+            </div>
+          </div>
         </div>
       </article>
     </div>
@@ -192,7 +193,7 @@ import TornEdge from '@/components/ui/TornEdge.astro';
     margin: 0;
   }
 
-  /* Cuadrícula Bento Moderna */
+  /* Cuadrícula Bento */
   .bento-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -222,11 +223,11 @@ import TornEdge from '@/components/ui/TornEdge.astro';
     border-color: oklch(0.66 0.18 50 / 0.35);
   }
 
-  /* Bento Lead (Tarjeta oscura dominante) */
+  /* Bento Lead (Tarjeta oscura) */
   .bento-card--lead {
     background: var(--earth-900);
     color: var(--cream-50);
-    border-color: oklch(0.985 0.01 85 / 0.1);
+    border-color: oklch(0.985 0.01 85 / 0.12);
   }
 
   @media (min-width: 54rem) {
@@ -251,6 +252,8 @@ import TornEdge from '@/components/ui/TornEdge.astro';
     min-height: 16rem;
     background: #190c05;
     overflow: hidden;
+    outline: 1px solid oklch(1 0 0 / 0.1); /* Regla better-ui para imagen oscura */
+    outline-offset: -1px;
   }
 
   .bento-lead-img {
@@ -261,7 +264,7 @@ import TornEdge from '@/components/ui/TornEdge.astro';
     display: block;
   }
 
-  /* Bento Light (Tarjetas blancas limpias) */
+  /* Bento Light (Tarjetas blancas) */
   .bento-card--light {
     background: #ffffff;
     color: var(--earth-900);
@@ -272,6 +275,8 @@ import TornEdge from '@/components/ui/TornEdge.astro';
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: #f0e6d6;
+    outline: 1px solid oklch(0 0 0 / 0.08); /* Regla better-ui para imagen clara */
+    outline-offset: -1px;
   }
 
   .bento-card-img {
@@ -304,23 +309,18 @@ import TornEdge from '@/components/ui/TornEdge.astro';
     }
   }
 
-  /* Tipografía y Badges de Bento */
-  .bento-badge {
-    display: inline-block;
-    align-self: flex-start;
-    padding: 0.25rem 0.65rem;
-    border-radius: 9999px;
-    background: oklch(0.66 0.18 50 / 0.12);
-    color: var(--ochre-700);
-    font-size: 0.7rem;
+  /* Tipografía Editorial: Kickers limpios sin píldoras */
+  .bento-kicker {
+    display: block;
+    font-size: 0.72rem;
     font-weight: 800;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    margin-block-end: 0.85rem;
+    color: var(--ochre-700);
+    margin-block-end: 0.75rem;
   }
 
-  .bento-badge--accent {
-    background: oklch(0.88 0.11 82 / 0.2);
+  .bento-card--lead .bento-kicker {
     color: var(--sun-300);
   }
 
@@ -347,62 +347,51 @@ import TornEdge from '@/components/ui/TornEdge.astro';
 
   .bento-card__text--light {
     color: var(--cream-200);
-    margin-block-end: 1.5rem;
   }
 
-  /* Chips estadísticos dentro del Bento Principal */
-  .bento-stats {
+  /* Metadatos editoriales (reemplaza las cajas plásticas de IA) */
+  .bento-lead-meta {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid oklch(1 0 0 / 0.12); /* Separador limpio en modo oscuro */
   }
 
-  .bento-stat-chip {
+  .bento-lead-meta--light {
+    border-top: 1px solid oklch(0.26 0.06 56 / 0.14); /* Separador limpio en modo claro */
+  }
+
+  .bento-meta-item {
     display: flex;
     flex-direction: column;
-    padding: 0.65rem 1rem;
-    background: oklch(0.19 0.035 58 / 0.5);
-    border: 1px solid oklch(0.985 0.01 85 / 0.15);
-    border-radius: 0.85rem;
+    gap: 0.25rem;
+    flex: 1;
   }
 
-  .bento-stat-chip strong {
+  .bento-meta-num {
     font-family: var(--font-display);
-    font-size: 1.35rem;
+    font-size: clamp(1.4rem, 1.2rem + 0.5vw, 1.85rem);
     font-weight: 900;
     color: var(--sun-300);
     line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
 
-  .bento-stat-chip span {
-    font-size: 0.72rem;
+  .bento-lead-meta--light .bento-meta-num {
+    color: var(--ochre-700);
+  }
+
+  .bento-meta-txt {
+    font-size: 0.76rem;
     font-weight: 600;
     color: var(--cream-200);
-    margin-top: 0.2rem;
-    letter-spacing: 0.02em;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
   }
 
-  /* Lista de características */
-  .bento-feature-list {
-    list-style: none;
-    padding: 0;
-    margin: 1.25rem 0 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-  }
-
-  .bento-feature-list li {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: var(--earth-900);
-  }
-
-  .bento-feature-list svg {
-    color: var(--ochre-600);
-    flex-shrink: 0;
+  .bento-lead-meta--light .bento-meta-txt {
+    color: oklch(0.36 0.085 56 / 0.85);
   }
 </style>
